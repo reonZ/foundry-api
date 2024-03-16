@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "nodenext",
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "noFallthroughCasesInSwitch": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "strictBindCallApply": true,
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "rootDir": "src",
+        "outDir": "dist"
+    },
+    "include": ["./src/**/*"]
+}

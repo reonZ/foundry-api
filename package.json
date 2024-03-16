@@ -1,0 +1,20 @@
+{
+    "name": "foundry-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch"
+    },
+    "author": "Idle",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "@types/jquery": "^3.5.29",
+        "remeda": "^1.43.0"
+    }
+}
