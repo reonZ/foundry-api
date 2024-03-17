@@ -8,7 +8,10 @@ export function localize(...args: LocalizeArgs) {
     const data = typeof args.at(-1) === "object" ? args.splice(-1)[0] : undefined;
     const path = joinStr(".", args as string[]);
 
-    if (typeof data === "object") return game.i18n.format(path, data);
+    if (typeof data === "object") {
+        return game.i18n.format(path, data);
+    }
+
     return game.i18n.localize(path);
 }
 

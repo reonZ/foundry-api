@@ -66,7 +66,9 @@ export function addListener<E extends Element = Element>(
     arg2?: ListenerCallback<E>
 ): E | undefined {
     const element = parent.querySelector<E>(selector);
-    if (!element) return;
+    if (!element) {
+        return;
+    }
 
     const event = typeof arg1 === "string" ? arg1 : "click";
     const listener = typeof arg1 === "function" ? arg1 : arg2!;

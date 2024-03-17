@@ -5,7 +5,7 @@ export function getFlag<T>(doc: FoundryDocument, ...path: string[]) {
     return doc.getFlag<T>(MODULE.id, path.join("."));
 }
 
-export function setFlag(doc: FoundryDocument, ...args: [...string[], unknown]) {
+export function setFlag<T>(doc: FoundryDocument, ...args: [...string[], T]) {
     const value = args.splice(-1)[0];
     return doc.setFlag(MODULE.id, args.join("."), value);
 }

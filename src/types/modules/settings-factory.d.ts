@@ -13,8 +13,6 @@ declare global {
     interface FactorySettingMenu extends SettingsConfig.CategoryMenu {
         group?: string;
     }
-
-    type FactorySettingAny = FactorySetting | FactorySettingMenu;
 }
 
 export type {};
