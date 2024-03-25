@@ -30,36 +30,46 @@ function applyHtmlMethod(
     }
 }
 
-function insertHTMLFromString(parent: Element, content: string, prepend = false) {
-    const children = createHTMLFromString(content);
+function insertHTMLFromString<T extends Element | HTMLCollection>(
+    parent: Element,
+    content: string,
+    prepend = false
+) {
+    const children = createHTMLFromString<T>(content);
     applyHtmlMethod(prepend ? parent.prepend : parent.append, children, parent);
     return children;
 }
 
-export function appendHTMLFromString(parent: Element, content: string) {
-    return insertHTMLFromString(parent, content, false);
+export function appendHTMLFromString<T extends Element | HTMLCollection>(
+    parent: Element,
+    content: string
+) {
+    return insertHTMLFromString<T>(parent, content, false);
 }
 
-export function beforeHTMLFromString(element: Element, content: string) {
-    const children = createHTMLFromString(content);
+export function beforeHTMLFromString<T extends Element | HTMLCollection>(
+    element: Element,
+    content: string
+) {
+    const children = createHTMLFromString<T>(content);
     applyHtmlMethod(element.before, children, element);
     return children;
 }
 
-declare type ListenerCallback<E extends Element = Element> = (event: Event, element: E) => void;
+type ListenerCallback<E extends Element = HTMLElement> = (event: Event, element: E) => void;
 
-export function addListener<E extends Element = Element>(
+export function addListener<E extends Element = HTMLElement>(
     parent: Element,
     selector: string,
     event: string,
     listener: ListenerCallback<E>
 ): E | undefined;
-export function addListener<E extends Element = Element>(
+export function addListener<E extends Element = HTMLElement>(
     parent: Element,
     selector: string,
     listener: ListenerCallback<E>
 ): E | undefined;
-export function addListener<E extends Element = Element>(
+export function addListener<E extends Element = HTMLElement>(
     parent: Element,
     selector: string,
     arg1: string | ListenerCallback<E>,
@@ -78,18 +88,18 @@ export function addListener<E extends Element = Element>(
     return element;
 }
 
-export function addListenerAll<E extends Element = Element>(
+export function addListenerAll<E extends Element = HTMLElement>(
     parent: Element,
     selector: string,
     event: string,
     listener: ListenerCallback<E>
 ): NodeListOf<E> | undefined;
-export function addListenerAll<E extends Element = Element>(
+export function addListenerAll<E extends Element = HTMLElement>(
     parent: Element,
     selector: string,
     listener: ListenerCallback<E>
 ): NodeListOf<E> | undefined;
-export function addListenerAll<E extends Element = Element>(
+export function addListenerAll<E extends Element = HTMLElement>(
     parent: Element,
     selector: string,
     arg1: string | ListenerCallback<E>,
@@ -106,19 +116,25 @@ export function addListenerAll<E extends Element = Element>(
     return elements;
 }
 
-export function querySelector<E extends Element = Element>(parent: Element, selector: string) {
+export function querySelector<E extends Element = HTMLElement>(parent: Element, selector: string) {
     return parent.querySelector<E>(selector)!;
 }
 
-export function querySelectorArray<E extends Element = Element>(parent: Element, selector: string) {
+export function querySelectorArray<E extends Element = HTMLElement>(
+    parent: Element,
+    selector: string
+) {
     return Array.from(parent.querySelectorAll<E>(selector));
 }
 
-export function findInElementArray<E extends Element = Element>(arr: E[], fn: (el: E) => boolean) {
+export function findInElementArray<E extends Element = HTMLElement>(
+    arr: E[],
+    fn: (el: E) => boolean
+) {
     return arr.find((el) => fn(el))!;
 }
 
-export function closest<E extends Element = Element>(el: Element, selector: string) {
+export function closest<E extends Element = HTMLElement>(el: Element, selector: string) {
     return el.closest<E>(selector)!;
 }
 
