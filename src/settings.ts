@@ -1,4 +1,4 @@
-import { mapToObj } from "remeda";
+import * as R from "remeda";
 import { MODULE } from ".";
 
 export declare type RegisterSettingOptions<T extends SettingType> = Omit<
@@ -8,9 +8,14 @@ export declare type RegisterSettingOptions<T extends SettingType> = Omit<
     choices?: string[] | SettingOptions["choices"];
 };
 
+/**
+ * scope = "world"
+ *
+ * config = true
+ */
 export function registerSetting<T extends SettingType>(options: RegisterSettingOptions<T>) {
     if (Array.isArray(options.choices)) {
-        options.choices = mapToObj(options.choices, (choice) => [
+        options.choices = R.mapToObj(options.choices, (choice) => [
             choice,
             settingPath(options.key, "choices", choice),
         ]);

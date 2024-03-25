@@ -1,10 +1,17 @@
-import { filter, flatten, join, pipe } from "remeda";
+import * as R from "remeda";
 
 export function joinStr(separator: "/" | "." | "-", ...path: (string | string[])[]) {
-    return pipe(
+    return R.pipe(
         path,
-        flatten(),
-        filter((x) => typeof x === "string"),
-        join(separator)
+        R.flatten(),
+        R.filter((x) => typeof x === "string"),
+        R.join(separator)
     );
+}
+
+export function safeSplit(str: string, selector = ",") {
+    return str
+        .split(selector)
+        .map((s) => s.trim())
+        .filter(Boolean);
 }

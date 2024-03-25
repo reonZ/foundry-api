@@ -1,4 +1,4 @@
-import { mapKeys } from "remeda";
+import * as R from "remeda";
 import { MODULE } from ".";
 
 export function getFlag<T>(doc: FoundryDocument, ...path: string[]) {
@@ -22,6 +22,6 @@ export function updateFlag<T extends Record<string, unknown> = Record<string, un
     doc: FoundryDocument,
     updates: T
 ) {
-    const pathed = mapKeys(updates, (key) => flagPath(key as string));
+    const pathed = R.mapKeys(updates, (key) => flagPath(key as string));
     return doc.update(pathed);
 }
