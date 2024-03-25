@@ -6,5 +6,6 @@ export * from "./libwrapper";
 export * from "./localize";
 export * from "./module";
 export * from "./notifications";
+export * from "./object";
 export * from "./settings";
 export * from "./string";
