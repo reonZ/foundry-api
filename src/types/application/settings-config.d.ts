@@ -1,6 +1,8 @@
 declare global {
-    class SettingsConfig extends FormApplication {
+    class SettingsConfig extends FormApplication<Record<string, string>> {
         static reloadConfirm(options?: { world?: boolean }): Promise<void>;
+
+        _previewFontScaling(event: { currentTarget: HTMLInputElement }): void;
     }
 
     namespace SettingsConfig {
@@ -16,22 +18,16 @@ declare global {
 
         type CategoryMenu = ClientSettingMenu;
 
-        type Category<
-            S extends CategorySetting = CategorySetting,
-            M extends CategoryMenu = CategoryMenu
-        > = {
+        type Category = {
             id: string;
             title: string;
             count: number;
-            menus: M[];
-            settings: S[];
+            menus: CategoryMenu[];
+            settings: CategorySetting[];
         };
 
-        type RenderInnerData<
-            S extends CategorySetting = CategorySetting,
-            M extends CategoryMenu = CategoryMenu
-        > = {
-            categories: Category<S, M>[];
+        type RenderInnerData = {
+            categories: Category[];
             total: number;
             user: User;
             canConfigure: boolean;

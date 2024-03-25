@@ -1,7 +1,7 @@
 export * from "./application";
-export * from "./modules";
 
 export * from "./abstract";
+export * from "./actor";
 export * from "./collection";
 export * from "./dialog";
 export * from "./document";

@@ -7,7 +7,10 @@ declare global {
         | ObjectConstructor
         | typeof FoundryDocument;
 
-    interface SettingOptions<T extends SettingType = SettingType, V = InstanceType<T> | null> {
+    interface SettingOptions<
+        T extends SettingType = SettingType,
+        V = InstanceType<T> | undefined | null
+    > {
         key: string;
         type: T;
         default: V;
@@ -58,6 +61,7 @@ declare global {
     }
 
     class ClientSettings {
+        menus: Map<string, ClientSettingMenu>;
         settings: Map<string, ClientSetting>;
         storage: SettingsStorage;
         register<T extends SettingType>(
@@ -70,7 +74,7 @@ declare global {
             key: string,
             data: SettingMenuOptions<T>
         ): void;
-        get<T>(namespace: string, key: string): T | undefined;
+        get<T>(namespace: string, key: string): T;
         set<T>(namespace: string, key: string, value: T): Promise<T> | T;
     }
 }

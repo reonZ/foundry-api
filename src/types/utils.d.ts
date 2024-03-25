@@ -7,7 +7,7 @@ declare global {
             function deepClone<T>(original: T, options?: { strict: boolean }): T;
             function isSubclass(cls: unknown, parent: Function): cls is typeof FoundryDocument;
             function isEmpty(value: unknown): boolean;
-            function getProperty<T = unknown>(object: object, key: string): T | undefined;
+            function getProperty<T = unknown>(target: any, key: string): T | undefined;
             function setProperty(object: object, key: string, value: any): boolean;
             function mergeObject<T extends object, U extends object = T>(
                 original: T,
@@ -23,6 +23,10 @@ declare global {
                 }
             ): T & U;
             function loadTemplates(paths: Record<string, string> | string[]): Promise<Function[]>;
+            function debounce<T extends unknown[]>(
+                callback: (...args: T) => unknown,
+                delay?: number
+            ): (...args: T) => void;
         }
     }
 
@@ -36,6 +40,7 @@ declare global {
     const setProperty: typeof foundry.utils.setProperty;
     const mergeObject: typeof foundry.utils.mergeObject;
     const loadTemplates: typeof foundry.utils.loadTemplates;
+    const debounce: typeof foundry.utils.debounce;
 }
 
 export type {};

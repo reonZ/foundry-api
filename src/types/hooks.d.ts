@@ -1,10 +1,12 @@
 declare global {
-	namespace Hooks {
-		function on(event: "init", fn: () => void): void;
-		function on(event: "setup", fn: () => void): void;
-		function on(event: "ready", fn: () => void): void;
-		function on(event: string, fn: (...args: unknown[]) => void): void;
-	}
+    namespace Hooks {
+        function once(event: "init", fn: () => void): void;
+        function once(event: "setup", fn: () => void): void;
+        function once(event: "ready", fn: () => void): void;
+        function once(event: string, fn: (...args: unknown[]) => void): void;
+
+        function on(event: string, fn: (...args: unknown[]) => void): void;
+    }
 }
 
 export type {};

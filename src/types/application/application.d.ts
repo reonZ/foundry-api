@@ -62,7 +62,7 @@ declare global {
         get element(): JQuery;
         getData(options?: any): Record<string, unknown> | Promise<Record<string, unknown>>;
         render(force?: boolean, options?: ApplicationRenderOptions): this;
-        close(options?: any): Promise<void>;
+        close(options?: { force?: boolean }): Promise<void>;
         activateListeners(html: JQuery): void;
     }
 }
