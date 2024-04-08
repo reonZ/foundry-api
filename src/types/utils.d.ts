@@ -27,6 +27,21 @@ declare global {
                 callback: (...args: T) => unknown,
                 delay?: number
             ): (...args: T) => void;
+            function fromUuid<T extends FoundryDocument>(uuid: string): Promise<T | undefined>;
+            function fromUuidSync<
+                T extends FoundryDocument | CompendiumCollectionIndex = CompendiumCollectionIndex
+            >(uuid: string): T | undefined;
+            function isNewerVersion(v1: string, v2: string): boolean;
+            function logCompatibilityWarning(
+                message: string,
+                options?: {
+                    mode?: number;
+                    since?: number | string;
+                    until?: number | string;
+                    details?: string;
+                    stack?: boolean;
+                }
+            ): void;
         }
     }
 
@@ -41,6 +56,10 @@ declare global {
     const mergeObject: typeof foundry.utils.mergeObject;
     const loadTemplates: typeof foundry.utils.loadTemplates;
     const debounce: typeof foundry.utils.debounce;
+    const fromUuid: typeof foundry.utils.fromUuid;
+    const fromUuidSync: typeof foundry.utils.fromUuidSync;
+    const isNewerVersion: typeof foundry.utils.isNewerVersion;
+    const logCompatibilityWarning: typeof foundry.utils.logCompatibilityWarning;
 }
 
 export type {};

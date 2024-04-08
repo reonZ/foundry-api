@@ -17,9 +17,9 @@ declare global {
     interface DialogPromptConfig<R = unknown> {
         title?: string;
         content: string;
-        label: string;
-        callback: (html: JQuery) => R;
-        render: (html: JQuery) => unknown;
+        label?: string;
+        callback?: (html: JQuery) => R;
+        render?: (html: JQuery) => unknown;
         rejectClose?: boolean;
         options?: ApplicationOptions;
     }
@@ -36,7 +36,9 @@ declare global {
     }
 
     class Dialog extends FormApplication {
-        static confirm<Y, N>(config?: DialogConfirmConfig<Y, N>): Promise<Y | N | null>;
+        static confirm<Y = true, N = false>(
+            config?: DialogConfirmConfig<Y, N>
+        ): Promise<Y | N | null>;
         static prompt<R = unknown>(config?: DialogPromptConfig): Promise<R>;
         static wait<R = unknown>(
             data?: DialogData,

@@ -1,11 +1,11 @@
 import { render } from ".";
 
-export async function confirmDialog(options: {
+async function confirmDialog(options: {
     template: string;
     data: Record<string, unknown>;
     title: string;
     defaultYes?: boolean;
-    id: string;
+    id?: string;
 }) {
     const content = await render(options.template, options.data);
     return Dialog.confirm({
@@ -18,15 +18,17 @@ export async function confirmDialog(options: {
     });
 }
 
-export async function waitDialog<R = unknown>(options: {
-    yes: DialogButton;
-    no: string;
+async function waitDialog<Y, N>(options: {
+    yes: Required<Omit<DialogButton<Y>, "icon">> & { icon?: string };
+    no: DialogButton<N> & { label: string };
     template: string;
     title: string;
-    id: string;
+    id?: string;
+    default?: "yes" | "no";
     data: Record<string, unknown>;
 }) {
     const yesIcon = options.yes.icon ?? "fa-solid fa-check";
+    const noIcon = options.no.icon ?? "fa-solid fa-xmark";
 
     const buttons = {
         yes: {
@@ -35,20 +37,20 @@ export async function waitDialog<R = unknown>(options: {
             callback: options.yes.callback,
         },
         no: {
-            icon: "<i class='fa-solid fa-xmark'></i>",
-            label: options.no,
-            callback: () => null,
+            icon: `<i class='${noIcon}'></i>`,
+            label: options.no.label,
+            callback: options.no.callback ?? (() => null),
         },
     };
 
     const content = await render(options.template, options.data);
 
-    return Dialog.wait<R | null>(
+    return Dialog.wait<Y | N>(
         {
             title: options.title,
             content,
             buttons,
-            default: "yes",
+            default: options.default ?? "yes",
             close: () => null,
         },
         {
@@ -56,3 +58,5 @@ export async function waitDialog<R = unknown>(options: {
         }
     );
 }
+
+export { confirmDialog, waitDialog };

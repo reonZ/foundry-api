@@ -1,24 +1,23 @@
 import { MODULE } from ".";
 
-export declare namespace libWrapper {
-    type RegisterCallback<
-        R extends any | Promise<any> = any | Promise<any>,
-        A extends any[] = any[]
-    > = (...args: A) => R;
+declare namespace libWrapper {
+    type RegisterCallback<R extends Promisable<any> = Promisable<any>, A extends any[] = any[]> = (
+        ...args: A
+    ) => R;
 
     type RegisterWrappedCallback<
-        R extends any | Promise<any> = any | Promise<any>,
+        R extends Promisable<any> = Promisable<any>,
         A extends any[] = any[]
     > = (wrapped: RegisterCallback<R, A>, ...args: A) => R;
 
     type RegisterMixedCallback<
-        R extends any | Promise<any> = any | Promise<any>,
+        R extends Promisable<any> = Promisable<any>,
         A extends any[] = any[]
     > = (wrapped: RegisterCallback<R, A>, ...args: A) => R | never;
 
-    type RegisterOverrideCallback<
-        R extends any | Promise<any> = any | Promise<any>
-    > = (...args: any[]) => R;
+    type RegisterOverrideCallback<R extends Promisable<any> = Promisable<any>> = (
+        ...args: any[]
+    ) => R;
 
     type RegisterCallbacks =
         | RegisterWrappedCallback
@@ -35,25 +34,37 @@ export declare namespace libWrapper {
     ): number;
 }
 
-export function registerWrapper<R extends any | Promise<any>>(
-    path: string,
+function registerWrapper<P extends string | string[], R extends Promisable<any>>(
+    path: P,
     fn: libWrapper.RegisterMixedCallback<R>,
     type: "MIXED"
-): number;
-export function registerWrapper<R extends any | Promise<any>>(
-    path: string,
+): P extends string[] ? number[] : number;
+function registerWrapper<P extends string | string[], R extends Promisable<any>>(
+    path: P,
     fn: libWrapper.RegisterOverrideCallback<R>,
     type: "OVERRIDE"
-): number;
-export function registerWrapper<R extends any | Promise<any>>(
-    path: string,
+): P extends string[] ? number[] : number;
+function registerWrapper<P extends string | string[], R extends Promisable<any>>(
+    path: P,
     fn: libWrapper.RegisterWrappedCallback<R>,
     type: "WRAPPER"
-): number;
-export function registerWrapper<R extends any | Promise<any>>(
-    path: string,
+): P extends string[] ? number[] : number;
+function registerWrapper<P extends string | string[]>(
+    path: P,
     fn: libWrapper.RegisterCallbacks,
     type: libWrapper.RegisterType
-): number {
-    return libWrapper.register(MODULE.id, path, fn, type);
+): P extends string[] ? number[] : number {
+    const ids: number[] = [];
+    const paths: string[] = Array.isArray(path) ? path : [path];
+
+    for (const key of paths) {
+        const id = libWrapper.register(MODULE.id, key, fn, type);
+        ids.push(id);
+    }
+
+    // @ts-ignore
+    return ids.length === 1 ? ids[0] : ids;
 }
+
+export type { libWrapper };
+export { registerWrapper };

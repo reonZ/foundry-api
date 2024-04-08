@@ -1,3 +1,17 @@
-export const AsyncFunction = (async () => {}).constructor as {
-    new (...args: any[]): () => Promise<any>;
+const AsyncFunction = (async () => {}).constructor as {
+    new <T>(...args: any[]): () => Promise<T>;
 };
+
+function isInstanceOf<T>(obj: any, name: string): obj is T {
+    if (typeof obj !== "object") return false;
+
+    let cursor = Reflect.getPrototypeOf(obj);
+    while (cursor) {
+        if (cursor.constructor.name === name) return true;
+        cursor = Reflect.getPrototypeOf(cursor);
+    }
+
+    return false;
+}
+
+export { AsyncFunction, isInstanceOf };

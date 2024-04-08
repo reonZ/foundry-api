@@ -1,5 +1,5 @@
 declare global {
-    class SettingsConfig extends FormApplication<Record<string, string>> {
+    class SettingsConfig extends FormApplication<null, Record<string, string>> {
         static reloadConfirm(options?: { world?: boolean }): Promise<void>;
 
         _previewFontScaling(event: { currentTarget: HTMLInputElement }): void;

@@ -1,10 +1,7 @@
 import * as R from "remeda";
 import { MODULE } from ".";
 
-export declare type RegisterSettingOptions<T extends SettingType> = Omit<
-    SettingOptions<T>,
-    "choices"
-> & {
+declare type RegisterSettingOptions<T extends SettingType> = Omit<SettingOptions<T>, "choices"> & {
     choices?: string[] | SettingOptions["choices"];
 };
 
@@ -13,7 +10,7 @@ export declare type RegisterSettingOptions<T extends SettingType> = Omit<
  *
  * config = true
  */
-export function registerSetting<T extends SettingType>(options: RegisterSettingOptions<T>) {
+function registerSetting<T extends SettingType>(options: RegisterSettingOptions<T>) {
     if (Array.isArray(options.choices)) {
         options.choices = R.mapToObj(options.choices, (choice) => [
             choice,
@@ -29,7 +26,7 @@ export function registerSetting<T extends SettingType>(options: RegisterSettingO
     game.settings.register(MODULE.id, options.key, options as SettingOptions<T>);
 }
 
-export function registerSettingMenu<T extends ConstructorOf<FormApplication>>(
+function registerSettingMenu<T extends ConstructorOf<FormApplication>>(
     options: SettingMenuOptions<T>
 ) {
     options.name ??= settingPath("menus", options.key, "name");
@@ -41,30 +38,40 @@ export function registerSettingMenu<T extends ConstructorOf<FormApplication>>(
     game.settings.registerMenu(MODULE.id, options.key, options);
 }
 
-export function settingPath(...path: string[]) {
+function settingPath(...path: string[]) {
     return MODULE.path("settings", ...path);
 }
 
-export function getSetting<T>(key: string) {
+function getSetting<T = boolean>(key: string) {
     return game.settings.get<T>(MODULE.id, key);
 }
 
-export function setSetting<T>(key: string, value: T) {
+function setSetting<T>(key: string, value: T) {
     return game.settings.set<T>(MODULE.id, key, value);
 }
 
-export function isClientSetting(setting: ClientSetting | ClientSettingMenu) {
+function isClientSetting(setting: ClientSetting | ClientSettingMenu) {
     if ("restricted" in setting) return !setting.restricted;
     return "scope" in setting && setting.scope === "client";
 }
 
-export function isWorldSetting(setting: ClientSetting | ClientSettingMenu) {
+function isWorldSetting(setting: ClientSetting | ClientSettingMenu) {
     if ("restricted" in setting) return !!setting.restricted;
     return "scope" in setting && setting.scope === "world";
 }
 
-export function isMenuSetting(
-    setting: ClientSetting | ClientSettingMenu
-): setting is ClientSettingMenu {
+function isMenuSetting(setting: ClientSetting | ClientSettingMenu): setting is ClientSettingMenu {
     return setting.type.prototype instanceof FormApplication;
 }
+
+export type { RegisterSettingOptions };
+export {
+    getSetting,
+    isMenuSetting,
+    isWorldSetting,
+    isClientSetting,
+    registerSetting,
+    registerSettingMenu,
+    setSetting,
+    settingPath,
+};

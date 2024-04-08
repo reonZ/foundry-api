@@ -3,7 +3,7 @@ import { joinStr } from ".";
 let MODULE_ID = "";
 let MODULE_NAME = "";
 
-export const MODULE = {
+const MODULE = {
     get id() {
         if (!MODULE_ID) {
             throw new Error("Module needs to be registered.");
@@ -16,6 +16,9 @@ export const MODULE = {
         }
         return MODULE_NAME;
     },
+    get current() {
+        return game.modules.get(this.id)!;
+    },
     error(str: string) {
         throw new Error(`\n[${this.name}] ${str}`);
     },
@@ -27,9 +30,11 @@ export const MODULE = {
     },
     register(id: string, name: string) {
         if (MODULE_ID) {
-            this.error("Module was already registered.");
+            throw new Error("Module was already registered.");
         }
         MODULE_ID = id;
         MODULE_NAME = name;
     },
 };
+
+export { MODULE };

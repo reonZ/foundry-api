@@ -19,7 +19,7 @@ declare global {
         scope?: "client" | "world";
         config?: boolean;
         requiresReload?: boolean;
-        onChange?: (value: V) => void | Promise<void>;
+        onChange?: (value: V) => Promisable<void>;
         choices?: Record<string, string>;
         range?: { min: number; max: number; step: number };
     }
@@ -54,7 +54,7 @@ declare global {
         set(key: string, value: unknown): this;
     }
 
-    class Setting<V extends JsonType = JsonType> extends FoundryDocument {
+    class Setting<V extends JSONValue = JSONValue> extends FoundryDocument {
         constructor(options: { key: string; value: unknown });
         key: string;
         value: V;

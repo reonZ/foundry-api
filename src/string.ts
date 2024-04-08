@@ -1,6 +1,6 @@
 import * as R from "remeda";
 
-export function joinStr(separator: "/" | "." | "-", ...path: (string | string[])[]) {
+function joinStr(separator: "/" | "." | "-", ...path: (string | string[])[]) {
     return R.pipe(
         path,
         R.flatten(),
@@ -9,9 +9,23 @@ export function joinStr(separator: "/" | "." | "-", ...path: (string | string[])
     );
 }
 
-export function safeSplit(str: string, selector = ",") {
+function safeSplit(str: string, selector = ",") {
     return str
         .split(selector)
         .map((s) => s.trim())
         .filter(Boolean);
 }
+
+function beautity(str: string) {
+    return str.replaceAll(/[-_.]([a-z])/g, (_, c) => ` ${c.toUpperCase()}`).capitalize();
+}
+
+function stringBoolean(b: boolean | string) {
+    return String(b) as StringBoolean;
+}
+
+function stringNumber(n: number | string) {
+    return String(n) as StringNumber;
+}
+
+export { beautity, joinStr, safeSplit, stringBoolean, stringNumber };

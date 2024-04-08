@@ -1,8 +1,8 @@
 import { MODULE, error, info, joinStr, warn } from ".";
 
-declare type LocalizeArgs = [...string[], string | Record<string, string>];
+declare type LocalizeArgs = [...string[], string | Record<string, any>];
 
-export function localize(...args: LocalizeArgs) {
+function localize(...args: LocalizeArgs) {
     args.unshift(MODULE.id);
 
     const data = typeof args.at(-1) === "object" ? args.splice(-1)[0] : undefined;
@@ -15,15 +15,30 @@ export function localize(...args: LocalizeArgs) {
     return game.i18n.localize(path);
 }
 
-export function hasLocalization(...path: string[]) {
+function localizeIfExist(...args: LocalizeArgs) {
+    args.unshift(MODULE.id);
+
+    const data = typeof args.at(-1) === "object" ? args.splice(-1)[0] : undefined;
+    const path = joinStr(".", args as string[]);
+
+    if (!game.i18n.has(path, false)) return;
+
+    if (typeof data === "object") {
+        return game.i18n.format(path, data);
+    }
+
+    return game.i18n.localize(path);
+}
+
+function hasLocalization(...path: string[]) {
     return game.i18n.has(`${MODULE.path(path)}`, false);
 }
 
-export function localizePath(...path: string[]) {
+function localizePath(...path: string[]) {
     return MODULE.path(path);
 }
 
-export function templateLocalize(subKey: string) {
+function templateLocalize(subKey: string) {
     const fn = (key: string, { hash }: { hash: Record<string, string> }) =>
         localize(subKey, key, hash);
 
@@ -46,10 +61,15 @@ export function templateLocalize(subKey: string) {
     return fn;
 }
 
-export function subLocalize(subKey: string) {
+function subLocalize(subKey: string) {
     const fn = (...args: LocalizeArgs) => localize(subKey, ...args);
 
     Object.defineProperties(fn, {
+        ifExist: {
+            value: (...args: LocalizeArgs) => localizeIfExist(subKey, ...args),
+            enumerable: false,
+            configurable: false,
+        },
         warn: {
             value: (str: string, arg1?: Record<string, string> | boolean, arg2?: boolean) =>
                 warn(`${subKey}.${str}`, arg1, arg2),
@@ -93,6 +113,8 @@ export function subLocalize(subKey: string) {
     });
 
     return fn as typeof localize & {
+        ifExist: typeof localizeIfExist;
+        has: typeof hasLocalization;
         path: typeof localizePath;
         warn: typeof warn;
         info: typeof info;
@@ -101,3 +123,5 @@ export function subLocalize(subKey: string) {
         sub: typeof subLocalize;
     };
 }
+
+export { localize, localizeIfExist, hasLocalization, localizePath, templateLocalize, subLocalize };

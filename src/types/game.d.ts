@@ -8,6 +8,8 @@ declare global {
             userId: string;
             users: UserSourceData[];
         };
+        modules: Collection<Module>;
+        packs: CompendiumPacks;
     }
 
     const game: Game;
