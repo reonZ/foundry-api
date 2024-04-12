@@ -26,7 +26,7 @@ async function waitDialog<Y, N>(options: {
     id?: string;
     default?: "yes" | "no";
     data: Record<string, unknown>;
-}) {
+}): Promise<Y | N | null> {
     const yesIcon = options.yes.icon ?? "fa-solid fa-check";
     const noIcon = options.no.icon ?? "fa-solid fa-xmark";
 
@@ -39,9 +39,9 @@ async function waitDialog<Y, N>(options: {
         no: {
             icon: `<i class='${noIcon}'></i>`,
             label: options.no.label,
-            callback: options.no.callback ?? (() => null),
+            callback: options.no.callback ?? ((() => null) as () => N),
         },
-    };
+    } as const;
 
     const content = await render(options.template, options.data);
 

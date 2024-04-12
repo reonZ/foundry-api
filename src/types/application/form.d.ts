@@ -19,13 +19,17 @@ declare global {
         title: string;
     }
 
-    class FormApplication<
+    abstract class FormApplication<
         TObject extends object | null = null,
         TFormData extends Record<string, unknown> = Record<string, unknown>
     > extends Application {
+        static get defaultOptions(): FormApplicationOptions;
+
         get object(): TObject;
+
+        abstract _updateObject(event: SubmitEvent, formData: TFormData): Promise<void>;
+
         _onChangeRange(event: { target: HTMLInputElement }): void;
-        _updateObject(event: SubmitEvent, formData: TFormData): Promise<void>;
         close(options?: { force?: boolean; submit?: boolean }): Promise<void>;
     }
 }

@@ -26,6 +26,10 @@ function updateFlag<T extends Record<string, unknown>>(
     return doc.update(pathed);
 }
 
+function getFlagProperty<T>(obj: object, ...args: string[]) {
+    return getProperty<T>(obj, flagPath(...args));
+}
+
 function setFlagProperty(obj: object, ...args: [...string[], any]) {
     const value = args.splice(-1)[0];
     setProperty(obj, flagPath(...args), value);
@@ -50,6 +54,7 @@ export {
     flagPath,
     getFlag,
     getModuleFlag,
+    getFlagProperty,
     hasModuleFlag,
     setFlag,
     setFlagProperty,

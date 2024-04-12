@@ -9,6 +9,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "noImplicitAny": true,
+        "noImplicitThis": true,
         "noFallthroughCasesInSwitch": true,
         "strictFunctionTypes": true,
         "strictNullChecks": true,

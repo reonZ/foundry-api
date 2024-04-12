@@ -18,6 +18,7 @@ declare global {
     interface NumberConstructor {
         isNumeric(n: unknown): boolean;
         fromString(n: string | number): Number;
+        between(num: number, a: number, b: number, inclusive?: boolean): boolean;
     }
 
     interface Math {

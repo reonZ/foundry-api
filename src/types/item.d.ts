@@ -21,6 +21,7 @@ declare global {
 
     class Item<TParent extends Actor = Actor> extends FoundryDocument<TParent> {
         get actor(): TParent;
+        get img(): string;
 
         sortRelative({
             updateData,

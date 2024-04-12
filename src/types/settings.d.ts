@@ -75,7 +75,7 @@ declare global {
             data: SettingMenuOptions<T>
         ): void;
         get<T>(namespace: string, key: string): T;
-        set<T>(namespace: string, key: string, value: T): Promise<T> | T;
+        set<T>(namespace: string, key: string, value: T): Promise<T>;
     }
 }
 

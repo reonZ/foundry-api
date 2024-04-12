@@ -70,7 +70,6 @@ declare global {
     class Application {
         constructor(options?: ApplicationOptions);
 
-        static defaultOptions(): ApplicationOptions;
         static RENDER_STATES: {
             CLOSING: -2;
             CLOSED: -1;
@@ -79,6 +78,8 @@ declare global {
             RENDERED: 2;
             ERROR: 3;
         };
+
+        static getdefaultOptions(): ApplicationOptions;
 
         _state: (typeof Application.RENDER_STATES)[keyof typeof Application.RENDER_STATES];
         _dragDrop: DragDrop[];

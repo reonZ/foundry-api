@@ -18,7 +18,9 @@ declare global {
         speaker?: ChatMessageSpeaker;
     }
 
-    interface ChatMessageSourceData extends DocumentSourceData {
+    type ChatMessageType = (typeof CONST.CHAT_MESSAGE_TYPES)[keyof typeof CONST.CHAT_MESSAGE_TYPES];
+
+    interface ChatMessageSourceData {
         user: User;
         timestamp: number;
         flavor: string;
@@ -30,19 +32,28 @@ declare global {
         sound: string;
         emote: boolean;
         flags: Record<string, any>;
+        type: ChatMessageType;
     }
 
-    class ChatMessage extends FoundryDocument {
+    class ChatMessage {
+        static get implementation(): typeof ChatMessage;
+
         get alias(): string;
         get isAuthor(): boolean;
         get isContentVisible(): boolean;
         get isRoll(): boolean;
 
         static getSpeaker(options?: ChatMessageSpeakerOptions): ChatMessageSpeaker;
-        static create<D extends ChatMessageSourceData = ChatMessageSourceData>(
-            data: Partial<D>,
+        static create(
+            data: Partial<ChatMessageSourceData>,
             context?: DocumentModificationContext
         ): Promise<ChatMessage>;
+
+        toObject(): Omit<ChatMessageSourceData, "type">;
+        updateSource<D extends Record<string, any>>(
+            changes: D,
+            options?: { fallback?: boolean; dryRun?: boolean }
+        ): Partial<{ [K in keyof D]: D[K] }>;
     }
 }
 

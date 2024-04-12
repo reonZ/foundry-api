@@ -13,6 +13,7 @@ declare global {
 
         get name(): string;
         get itemTypes(): Record<string, Item[]>;
+        get hasPlayerOwner(): boolean;
 
         deleteEmbeddedDocuments(
             embeddedName: "Item",

@@ -5,10 +5,10 @@ declare global {
         callback?: (html: JQuery) => T;
     }
 
-    interface DialogData {
+    interface DialogData<T = unknown> {
         title: string;
         content: string;
-        buttons: Record<string, DialogButton>;
+        buttons: Record<string, DialogButton<T>>;
         default?: string;
         render?: (html: JQuery) => void;
         close?: (html: JQuery) => unknown;
@@ -41,10 +41,12 @@ declare global {
         ): Promise<Y | N | null>;
         static prompt<R = unknown>(config?: DialogPromptConfig): Promise<R>;
         static wait<R = unknown>(
-            data?: DialogData,
+            data?: DialogData<R>,
             options?: ApplicationOptions,
             renderOptions?: ApplicationRenderOptions
         ): Promise<R>;
+
+        _updateObject(event: SubmitEvent, formData: Record<string, unknown>): Promise<void>;
     }
 }
 

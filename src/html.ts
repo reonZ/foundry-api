@@ -130,6 +130,10 @@ function queryInClosest<E extends Element = HTMLElement>(
     return querySelector<E>(parent, childSelector);
 }
 
+function queryInParent<E extends Element = HTMLElement>(el: Element, childSelector: string) {
+    return querySelector<E>(el.parentElement!, childSelector);
+}
+
 function closest<E extends Element = HTMLElement>(el: Element, selector: string) {
     return el.closest<E>(selector)!;
 }
@@ -157,6 +161,9 @@ function dataToDatasetString<TKey extends string>(data: DataToDatasetStringType<
 
 export type { DataToDatasetStringType };
 export {
+    closest,
+    dataToDatasetString,
+    elementData,
     htmlElement,
     isCheckboxElement,
     createHTMLFromString,
@@ -167,8 +174,6 @@ export {
     querySelector,
     querySelectorArray,
     queryInClosest,
-    closest,
+    queryInParent,
     parentElement,
-    elementData,
-    dataToDatasetString,
 };

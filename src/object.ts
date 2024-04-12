@@ -1,5 +1,5 @@
-const AsyncFunction = (async () => {}).constructor as {
-    new <T>(...args: any[]): () => Promise<T>;
+const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor as {
+    new <T>(...args: any[]): (...args: any[]) => Promise<T>;
 };
 
 function isInstanceOf<T>(obj: any, name: string): obj is T {

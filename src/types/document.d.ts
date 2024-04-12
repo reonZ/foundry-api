@@ -29,6 +29,11 @@ declare global {
         system: TSystem & { [k: string]: any };
     }
 
+    type DocumentUpdateContext = Omit<
+        DocumentModificationContext,
+        "deleteAll" | "index" | "keepId" | "keepEmbeddedIds" | "temporary"
+    >;
+
     interface DocumentCloneContext extends Omit<DocumentConstructionContext<null>, "parent"> {
         save?: boolean;
         keepId?: boolean;
@@ -39,10 +44,10 @@ declare global {
             source: object,
             options?: { strict?: boolean; [k: string]: any }
         ): FoundryDocument;
-        static create<D extends DocumentSourceData = DocumentSourceData>(
-            data: Partial<D>,
-            context?: DocumentModificationContext
-        ): Promise<FoundryDocument>;
+        // static create<D extends DocumentSourceData = DocumentSourceData>(
+        //     data: Partial<D>,
+        //     context?: DocumentModificationContext
+        // ): Promise<FoundryDocument>;
 
         static get implementation(): typeof FoundryDocument;
 

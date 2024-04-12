@@ -11,7 +11,9 @@ declare global {
 
     class DocumentSheet<
         TObject extends FoundryDocument = FoundryDocument
-    > extends FormApplication<TObject> {}
+    > extends FormApplication<TObject> {
+        _updateObject(event: SubmitEvent, formData: Record<string, unknown>): Promise<void>;
+    }
 
     class ActorSheet<TActor extends Actor = Actor> extends DocumentSheet<TActor> {
         get actor(): TActor;

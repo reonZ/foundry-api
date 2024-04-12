@@ -10,6 +10,8 @@ declare global {
         };
         modules: Collection<Module>;
         packs: CompendiumPacks;
+        combat: Combat;
+        actors: Actors;
     }
 
     const game: Game;

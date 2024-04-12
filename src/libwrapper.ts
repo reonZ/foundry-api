@@ -19,17 +19,17 @@ declare namespace libWrapper {
         ...args: any[]
     ) => R;
 
-    type RegisterCallbacks =
-        | RegisterWrappedCallback
-        | RegisterOverrideCallback
-        | RegisterMixedCallback;
+    type RegisterCallbacks<R extends Promisable<any> = Promisable<any>, A extends any[] = any[]> =
+        | RegisterWrappedCallback<R, A>
+        | RegisterOverrideCallback<R>
+        | RegisterMixedCallback<R, A>;
 
     type RegisterType = "WRAPPER" | "OVERRIDE" | "MIXED";
 
-    function register(
+    function register<R extends Promisable<any> = Promisable<any>, A extends any[] = any[]>(
         namespace: string,
         path: string,
-        fn: RegisterCallbacks,
+        fn: RegisterCallbacks<R, A>,
         type: RegisterType
     ): number;
 }

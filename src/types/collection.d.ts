@@ -47,6 +47,8 @@ declare global {
     interface WorldSettings extends WorldCollection<Setting> {
         getSetting(key: string): Setting;
     }
+
+    class Actors<TParent extends Actor = Actor> extends Collection<TParent> {}
 }
 
 export type {};
