@@ -1,0 +1,43 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.waitDialog = exports.confirmDialog = void 0;
+const _1 = require(".");
+async function confirmDialog(options) {
+    const content = await (0, _1.render)(options.template, options.data);
+    return Dialog.confirm({
+        title: options.title,
+        content,
+        defaultYes: options.defaultYes ?? false,
+        options: {
+            id: options.id,
+        },
+    });
+}
+exports.confirmDialog = confirmDialog;
+async function waitDialog(options) {
+    const yesIcon = options.yes.icon ?? "fa-solid fa-check";
+    const noIcon = options.no.icon ?? "fa-solid fa-xmark";
+    const buttons = {
+        yes: {
+            icon: `<i class='${yesIcon}'></i>`,
+            label: options.yes.label,
+            callback: options.yes.callback,
+        },
+        no: {
+            icon: `<i class='${noIcon}'></i>`,
+            label: options.no.label,
+            callback: options.no.callback ?? (() => null),
+        },
+    };
+    const content = await (0, _1.render)(options.template, options.data);
+    return Dialog.wait({
+        title: options.title,
+        content,
+        buttons,
+        default: options.default ?? "yes",
+        close: () => null,
+    }, {
+        id: options.id,
+    });
+}
+exports.waitDialog = waitDialog;
