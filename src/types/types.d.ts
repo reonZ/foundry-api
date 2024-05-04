@@ -1,18 +1,15 @@
 declare global {
     type ConstructorOf<T> = new (...args: any[]) => T;
 
-    type JSONValue =
-        | string
-        | number
-        | boolean
-        | { [k: string]: JSONValue }
-        | Array<JSONValue>
-        | null
-        | undefined;
+    type JSONValue = string | number | boolean | object | null | undefined;
+
+    type Pairs<T> = Array<{ [K in keyof T]-?: [key: K, value: Required<T>[K]] }[keyof T]>;
 
     type CyclicRecord<T = unknown> = {
         [k: string]: T | CyclicRecord<T>;
     };
+
+    type AbstractConstructorOf<T> = abstract new (...args: any[]) => T;
 
     type RawObject<TModel extends FoundryDocument> = TModel extends { system: infer TSystem }
         ? Omit<TModel, "system"> & { system: TSystem }
@@ -99,6 +96,14 @@ declare global {
     type DeleteKey = `-=${string}`;
 
     type Promisable<T> = T | Promise<T>;
+
+    type PreCreate<T extends DocumentSourceData> = DeepPartial<T> &
+        Required<Pick<T, "name" | "type">>;
+
+    type EmbeddedDocumentUpdateData<T extends DocumentSourceData> = Partial<Omit<T, "_id">> &
+        Required<Pick<T, "_id">> & {
+            [key: string]: unknown;
+        };
 }
 
 export type {};

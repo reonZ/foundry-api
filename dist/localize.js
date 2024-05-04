@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.subLocalize = exports.templateLocalize = exports.localizePath = exports.hasLocalization = exports.localizeIfExist = exports.localize = void 0;
+exports.subLocalize = exports.templateLocalize = exports.localizePath = exports.hasLocalization = exports.localizeIfExist = exports.localize = exports.localeCompare = void 0;
 const _1 = require(".");
 function localize(...args) {
     args.unshift(_1.MODULE.id);
@@ -101,3 +101,7 @@ function subLocalize(subKey) {
     return fn;
 }
 exports.subLocalize = subLocalize;
+function localeCompare(a, b) {
+    return a.localeCompare(b, game.i18n.lang);
+}
+exports.localeCompare = localeCompare;

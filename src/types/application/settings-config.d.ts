@@ -7,7 +7,7 @@ declare global {
     }
 
     namespace SettingsConfig {
-        interface CategorySetting<T extends SettingType = SettingType> extends ClientSetting<T> {
+        interface CategorySetting extends ClientSetting {
             id: `${ClientSetting["namespace"]}.${ClientSetting["key"]}`;
             isCheckbox: boolean;
             isSelect: boolean;

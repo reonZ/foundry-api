@@ -25,6 +25,15 @@ declare global {
         _id: string;
     }
 
+    interface CompendiumIndexData {
+        _id: string;
+        type: string;
+        name: string;
+        img: string;
+        uuid: string;
+        [key: string]: any;
+    }
+
     class Collection<V> {}
 
     interface CompendiumCollection<T extends FoundryDocument = FoundryDocument>
@@ -48,7 +57,17 @@ declare global {
         getSetting(key: string): Setting;
     }
 
-    class Actors<TParent extends Actor = Actor> extends Collection<TParent> {}
+    interface Users extends WorldCollection<User> {
+        get activeGM(): User | null;
+    }
+
+    interface Actors<TParent extends Actor = Actor> extends WorldCollection<TParent> {}
+
+    interface RollTables extends WorldCollection<RollTable> {}
+
+    interface Scenes extends WorldCollection<Scene> {}
+
+    interface Messages extends WorldCollection<ChatMessage> {}
 }
 
 export type {};

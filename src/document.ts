@@ -1,3 +1,5 @@
+import { MODULE } from "./module";
+
 function getSourceId(doc: FoundryDocument) {
     return doc.getFlag<string>("core", "sourceId");
 }

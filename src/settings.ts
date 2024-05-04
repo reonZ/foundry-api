@@ -1,17 +1,15 @@
 import * as R from "remeda";
 import { MODULE } from ".";
 
-declare type RegisterSettingOptions<T extends SettingType> = Omit<SettingOptions<T>, "choices"> & {
-    choices?: string[] | SettingOptions["choices"];
-};
+declare type RegisterSettingOptions = SettingOptions;
 
 /**
  * scope = "world"
  *
  * config = true
  */
-function registerSetting<T extends SettingType>(options: RegisterSettingOptions<T>) {
-    if (Array.isArray(options.choices)) {
+function registerSetting(options: RegisterSettingOptions) {
+    if ("choices" in options && Array.isArray(options.choices)) {
         options.choices = R.mapToObj(options.choices, (choice) => [
             choice,
             settingPath(options.key, "choices", choice),
@@ -23,7 +21,7 @@ function registerSetting<T extends SettingType>(options: RegisterSettingOptions<
     options.scope ??= "world";
     options.config ??= true;
 
-    game.settings.register(MODULE.id, options.key, options as SettingOptions<T>);
+    game.settings.register(MODULE.id, options.key, options as SettingOptions);
 }
 
 function registerSettingMenu<T extends ConstructorOf<FormApplication>>(

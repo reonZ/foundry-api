@@ -15,8 +15,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isOfType = void 0;
+__exportStar(require("./actor"), exports);
 __exportStar(require("./application"), exports);
 __exportStar(require("./array"), exports);
+__exportStar(require("./canvas"), exports);
 __exportStar(require("./chat"), exports);
 __exportStar(require("./dialog"), exports);
 __exportStar(require("./document"), exports);
@@ -24,6 +26,7 @@ __exportStar(require("./event-manager"), exports);
 __exportStar(require("./flags"), exports);
 __exportStar(require("./handlebars"), exports);
 __exportStar(require("./item"), exports);
+__exportStar(require("./hooks"), exports);
 __exportStar(require("./html"), exports);
 __exportStar(require("./libwrapper"), exports);
 __exportStar(require("./localize"), exports);
@@ -31,7 +34,9 @@ __exportStar(require("./module"), exports);
 __exportStar(require("./notifications"), exports);
 __exportStar(require("./object"), exports);
 __exportStar(require("./settings"), exports);
+__exportStar(require("./socket"), exports);
 __exportStar(require("./string"), exports);
+__exportStar(require("./user"), exports);
 function isOfType(variable, ...types) {
     const type = typeof variable;
     return types.includes(type);

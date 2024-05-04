@@ -27,6 +27,14 @@ declare global {
             updateData,
             ...sortOptions
         }: { updateData?: object } & SortingOptions<this>): Promise<void>;
+
+        toAnchor(options?: {
+            attrs?: Record<string, string>;
+            dataset?: Record<string, string>;
+            classes?: string[];
+            name?: string;
+            icon?: string;
+        }): HTMLAnchorElement;
     }
 
     interface Item {

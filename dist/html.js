@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parentElement = exports.queryInParent = exports.queryInClosest = exports.querySelectorArray = exports.querySelector = exports.addListenerAll = exports.addListener = exports.beforeHTMLFromString = exports.appendHTMLFromString = exports.createHTMLFromString = exports.isCheckboxElement = exports.htmlElement = exports.elementData = exports.dataToDatasetString = exports.closest = void 0;
+exports.queryInParent = exports.queryInClosest = exports.querySelectorArray = exports.querySelector = exports.prependHTMLFromString = exports.parentElement = exports.isCheckboxElement = exports.htmlElement = exports.elementData = exports.dataToDatasetString = exports.createHTMLFromString = exports.closest = exports.beforeHTMLFromString = exports.appendHTMLFromString = exports.afterHTMLFromString = exports.addListenerAll = exports.addListener = void 0;
 function htmlElement(el) {
     return el instanceof HTMLElement ? el : el[0];
 }
@@ -9,46 +9,55 @@ function isCheckboxElement(el) {
     return el instanceof HTMLInputElement && el.type === "checkbox";
 }
 exports.isCheckboxElement = isCheckboxElement;
-function createHTMLFromString(content) {
+function createHTMLFromString(content, wrap = true) {
     const tmp = document.createElement("div");
     tmp.innerHTML = content;
     const children = tmp.children;
-    return children.length > 1 ? tmp : children[0];
+    return (children.length === 1 ? children[0] : wrap ? tmp : children);
 }
 exports.createHTMLFromString = createHTMLFromString;
 function applyHtmlMethod(fn, children, context) {
     const fnc = context ? fn.bind(context) : fn;
     if (children instanceof HTMLCollection) {
-        for (const child of children) {
-            fnc(child);
-        }
+        fnc(...children);
     }
     else {
         fnc(children);
     }
 }
 function insertHTMLFromString(parent, content, prepend = false) {
-    const children = createHTMLFromString(content);
-    applyHtmlMethod(prepend ? parent.prepend : parent.append, children, parent);
-    return children;
+    const html = createHTMLFromString(content, false);
+    applyHtmlMethod(prepend ? parent.prepend : parent.append, html, parent);
+    return html;
 }
 function appendHTMLFromString(parent, content) {
     return insertHTMLFromString(parent, content, false);
 }
 exports.appendHTMLFromString = appendHTMLFromString;
+function prependHTMLFromString(parent, content) {
+    return insertHTMLFromString(parent, content, true);
+}
+exports.prependHTMLFromString = prependHTMLFromString;
 function beforeHTMLFromString(element, content) {
-    const children = createHTMLFromString(content);
-    applyHtmlMethod(element.before, children, element);
-    return children;
+    const html = createHTMLFromString(content, false);
+    applyHtmlMethod(element.before, html, element);
+    return html;
 }
 exports.beforeHTMLFromString = beforeHTMLFromString;
-function addListener(parent, selector, arg1, arg2) {
+function afterHTMLFromString(element, content) {
+    const html = createHTMLFromString(content, false);
+    applyHtmlMethod(element.after, html, element);
+    return html;
+}
+exports.afterHTMLFromString = afterHTMLFromString;
+function addListener(parent, selector, arg1, arg2, arg3) {
     const element = parent.querySelector(selector);
     if (!element)
         return;
     const event = typeof arg1 === "string" ? arg1 : "click";
     const listener = typeof arg1 === "function" ? arg1 : arg2;
-    element.addEventListener(event, (e) => listener(e, element));
+    const useCapture = typeof arg2 === "boolean" ? arg2 : arg3;
+    element.addEventListener(event, (e) => listener(e, element), useCapture);
     return element;
 }
 exports.addListener = addListener;
@@ -87,8 +96,9 @@ function parentElement(el) {
     return el.parentElement;
 }
 exports.parentElement = parentElement;
-function elementData(el) {
-    return el.dataset;
+function elementData(el, selector) {
+    const target = selector ? querySelector(el, selector) : el;
+    return ("dataset" in target && target.dataset);
 }
 exports.elementData = elementData;
 function dataToDatasetString(data) {

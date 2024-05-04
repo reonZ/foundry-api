@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MODULE = void 0;
+exports.getActiveModule = exports.MODULE = void 0;
 const _1 = require(".");
 let MODULE_ID = "";
 let MODULE_NAME = "";
@@ -24,10 +24,14 @@ const MODULE = {
         throw new Error(`\n[${this.name}] ${str}`);
     },
     error(str, error) {
-        console.error(`[${this.name}] ${str}`);
-        if (error) {
-            console.error(error);
+        let message = `[${this.name}] ${str}`;
+        if (error instanceof Error) {
+            message += `\n${error.message}`;
         }
+        else if (typeof error === "string") {
+            message += `\n${error}`;
+        }
+        console.error(message);
     },
     log(str) {
         console.log(`[${this.name}] ${str}`);
@@ -44,3 +48,8 @@ const MODULE = {
     },
 };
 exports.MODULE = MODULE;
+function getActiveModule(name) {
+    const module = game.modules.get(name);
+    return module?.active ? module : undefined;
+}
+exports.getActiveModule = getActiveModule;

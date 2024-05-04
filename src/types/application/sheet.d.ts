@@ -18,6 +18,8 @@ declare global {
     class ActorSheet<TActor extends Actor = Actor> extends DocumentSheet<TActor> {
         get actor(): TActor;
     }
+
+    class ItemSheet<TItem extends Item> extends DocumentSheet<TItem> {}
 }
 
 export type {};

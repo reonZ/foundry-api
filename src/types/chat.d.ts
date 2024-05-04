@@ -2,7 +2,7 @@ declare global {
     interface ChatMessageSpeakerOptions {
         scene?: Scene;
         actor?: Actor;
-        token?: Token;
+        token?: TokenDocument;
         alias?: string;
     }
 
@@ -20,8 +20,8 @@ declare global {
 
     type ChatMessageType = (typeof CONST.CHAT_MESSAGE_TYPES)[keyof typeof CONST.CHAT_MESSAGE_TYPES];
 
-    interface ChatMessageSourceData {
-        user: User;
+    interface ChatMessageSourceData extends DocumentSourceData {
+        user: string;
         timestamp: number;
         flavor: string;
         content: string;
@@ -33,10 +33,23 @@ declare global {
         emote: boolean;
         flags: Record<string, any>;
         type: ChatMessageType;
+        rollMode: (typeof CONST.DICE_ROLL_MODES)[keyof typeof CONST.DICE_ROLL_MODES];
     }
 
-    class ChatMessage {
+    interface MessageConstructionContext extends DocumentConstructionContext<null> {
+        rollMode?: RollMode | "roll";
+    }
+
+    type ChatMessageCreateData = DeepPartial<Omit<ChatMessageSourceData, "rolls">> & {
+        rolls?: (string | RollJSON)[];
+    };
+
+    class ChatMessage extends FoundryDocument {
         static get implementation(): typeof ChatMessage;
+
+        flavor: string;
+        speaker: ChatMessageSpeaker;
+        content: string;
 
         get alias(): string;
         get isAuthor(): boolean;
@@ -45,15 +58,36 @@ declare global {
 
         static getSpeaker(options?: ChatMessageSpeakerOptions): ChatMessageSpeaker;
         static create(
-            data: Partial<ChatMessageSourceData>,
-            context?: DocumentModificationContext
+            data:
+                | ChatMessageCreateData
+                | PreCreate<ChatMessageSourceData>
+                | Partial<ChatMessageSourceData>,
+            context?: MessageConstructionContext
         ): Promise<ChatMessage>;
+        static createDocuments(
+            data: (ChatMessageCreateData | PreCreate<ChatMessageSourceData>)[],
+            context?: MessageConstructionContext
+        ): Promise<ChatMessage[]>;
 
-        toObject(): Omit<ChatMessageSourceData, "type">;
+        getHTML(): Promise<JQuery>;
+        toObject(): ChatMessageSourceData;
         updateSource<D extends Record<string, any>>(
             changes: D,
             options?: { fallback?: boolean; dryRun?: boolean }
         ): Partial<{ [K in keyof D]: D[K] }>;
+    }
+
+    interface ChatMessage {
+        _source: ChatMessageSourceData;
+        type: (typeof CONST.CHAT_MESSAGE_TYPES)[keyof typeof CONST.CHAT_MESSAGE_TYPES];
+    }
+
+    class ChatLog extends SidebarTab {
+        scrollBottom(options?: {
+            popout?: boolean;
+            waitImages?: boolean;
+            scrollOptions?: ScrollIntoViewOptions;
+        }): Promise<void>;
     }
 }
 

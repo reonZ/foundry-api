@@ -1,5 +1,7 @@
 declare global {
-    class Module {}
+    class Module {
+        active: boolean;
+    }
 
     interface Module {
         api?: Record<string, unknown>;

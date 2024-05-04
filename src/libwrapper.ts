@@ -32,6 +32,8 @@ declare namespace libWrapper {
         fn: RegisterCallbacks<R, A>,
         type: RegisterType
     ): number;
+
+    function unregister(namespace: string, target: number): void;
 }
 
 function registerWrapper<P extends string | string[], R extends Promisable<any>>(
@@ -51,7 +53,7 @@ function registerWrapper<P extends string | string[], R extends Promisable<any>>
 ): P extends string[] ? number[] : number;
 function registerWrapper<P extends string | string[]>(
     path: P,
-    fn: libWrapper.RegisterCallbacks,
+    fn: libWrapper.RegisterCallback,
     type: libWrapper.RegisterType
 ): P extends string[] ? number[] : number {
     const ids: number[] = [];
@@ -66,5 +68,9 @@ function registerWrapper<P extends string | string[]>(
     return ids.length === 1 ? ids[0] : ids;
 }
 
+function unregisterWrapper(id: number) {
+    libWrapper.unregister(MODULE.id, id);
+}
+
 export type { libWrapper };
-export { registerWrapper };
+export { registerWrapper, unregisterWrapper };

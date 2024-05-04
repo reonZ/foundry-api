@@ -20,4 +20,5 @@ declare function subLocalize(subKey: string): typeof localize & {
     };
     sub: typeof subLocalize;
 };
-export { localize, localizeIfExist, hasLocalization, localizePath, templateLocalize, subLocalize };
+declare function localeCompare(a: string, b: string): number;
+export { localeCompare, localize, localizeIfExist, hasLocalization, localizePath, templateLocalize, subLocalize, };

@@ -13,10 +13,11 @@ declare global {
         static getDragEventData<T extends Record<string, unknown> = Record<string, unknown>>(
             event: DragEvent
         ): T | undefined;
-        static enrichHTML(content: string, options: EnrichmentOptions & { async: false }): string;
+
+        static enrichHTML(content: string, options?: EnrichmentOptions & { async: false }): string;
         static enrichHTML(
             content: string,
-            options?: EnrichmentOptions & { async: true }
+            options: EnrichmentOptions & { async: true }
         ): Promise<string>;
         static enrichHTML(content: string, options?: EnrichmentOptions): string | Promise<string>;
     }

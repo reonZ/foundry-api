@@ -2,7 +2,7 @@ declare global {
     type ApplicationPositionOptions = {
         left?: number;
         top?: number;
-        width?: number;
+        width?: number | "auto";
         height?: number | "auto";
         scale?: number;
     };
@@ -67,8 +67,23 @@ declare global {
         sheetConfig: boolean;
     }
 
+    interface RenderOptions extends Partial<ApplicationOptions> {
+        left?: number;
+        top?: number;
+        width?: number;
+        height?: number;
+        scale?: number;
+        focus?: boolean;
+        renderContext?: string;
+        renderData?: Record<string, unknown>;
+        action?: UserAction;
+        editable?: boolean;
+    }
+
     class Application {
         constructor(options?: ApplicationOptions);
+
+        appId: number;
 
         static RENDER_STATES: {
             CLOSING: -2;
@@ -95,6 +110,7 @@ declare global {
         _createDragDropHandlers(): DragDrop[];
         _getHeaderButtons(): ApplicationHeaderButton[];
 
+        activateTab(tabName: string, options?: { group?: string; triggerCallback?: boolean }): void;
         getData(options?: object): Promisable<Record<string, unknown>>;
         render(force?: boolean, options?: ApplicationRenderOptions): this;
         close(options?: { force?: boolean }): Promisable<void>;

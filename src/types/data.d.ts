@@ -11,6 +11,8 @@ declare global {
         actorId?: string;
         tokenId?: string;
     }
+
+    type RollMode = "publicroll" | "gmroll" | "blindroll" | "selfroll";
 }
 
 export type {};

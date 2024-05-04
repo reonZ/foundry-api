@@ -1,12 +1,10 @@
-declare type RegisterSettingOptions<T extends SettingType> = Omit<SettingOptions<T>, "choices"> & {
-    choices?: string[] | SettingOptions["choices"];
-};
+declare type RegisterSettingOptions = SettingOptions;
 /**
  * scope = "world"
  *
  * config = true
  */
-declare function registerSetting<T extends SettingType>(options: RegisterSettingOptions<T>): void;
+declare function registerSetting(options: RegisterSettingOptions): void;
 declare function registerSettingMenu<T extends ConstructorOf<FormApplication>>(options: SettingMenuOptions<T>): void;
 declare function settingPath(...path: string[]): `${string}.${string}`;
 declare function getSetting<T = boolean>(key: string): T;

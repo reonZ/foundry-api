@@ -32,7 +32,7 @@ const _1 = require(".");
  * config = true
  */
 function registerSetting(options) {
-    if (Array.isArray(options.choices)) {
+    if ("choices" in options && Array.isArray(options.choices)) {
         options.choices = R.mapToObj(options.choices, (choice) => [
             choice,
             settingPath(options.key, "choices", choice),

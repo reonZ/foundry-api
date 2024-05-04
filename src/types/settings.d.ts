@@ -1,34 +1,43 @@
 declare global {
-    type SettingType =
-        | StringConstructor
-        | BooleanConstructor
-        | NumberConstructor
-        | ArrayConstructor
-        | ObjectConstructor
-        | typeof FoundryDocument;
-
-    interface SettingOptions<
-        T extends SettingType = SettingType,
-        V = InstanceType<T> | undefined | null
-    > {
+    type SettingOptionsBase = {
         key: string;
-        type: T;
-        default: V;
         name?: string;
         hint?: string;
         scope?: "client" | "world";
         config?: boolean;
         requiresReload?: boolean;
-        onChange?: (value: V) => Promisable<void>;
-        choices?: Record<string, string>;
-        range?: { min: number; max: number; step: number };
-    }
+    };
 
-    interface ClientSetting<T extends SettingType = SettingType>
-        extends Omit<SettingOptions<T>, "scope" | "config">,
-            Required<Pick<SettingOptions<T>, "scope" | "config">> {
-        namespace: string;
-    }
+    type SettingOptions<T extends string = string> = SettingOptionsBase &
+        (
+            | {
+                  type: StringConstructor;
+                  choices?: Record<T, string> | T[];
+                  default: T;
+                  onChange?: (value: T) => Promisable<void>;
+              }
+            | {
+                  type: NumberConstructor;
+                  default: number;
+                  range?: { min: number; max: number; step: number };
+                  onChange?: (value: number) => Promisable<void>;
+              }
+            | {
+                  type: BooleanConstructor;
+                  default: boolean;
+                  onChange?: (value: boolean) => Promisable<void>;
+              }
+            | {
+                  type: ArrayConstructor;
+                  default: Array<any>;
+                  onChange?: (value: Array<any>) => Promisable<void>;
+              }
+        );
+
+    type ClientSetting = Omit<SettingOptions, "scope" | "config"> &
+        Required<Pick<SettingOptions, "scope" | "config">> & {
+            namespace: string;
+        };
 
     interface SettingMenuOptions<
         T extends ConstructorOf<FormApplication> = ConstructorOf<FormApplication>
@@ -64,11 +73,7 @@ declare global {
         menus: Map<string, ClientSettingMenu>;
         settings: Map<string, ClientSetting>;
         storage: SettingsStorage;
-        register<T extends SettingType>(
-            namespace: string,
-            key: string,
-            data: SettingOptions<T>
-        ): void;
+        register(namespace: string, key: string, data: SettingOptions): void;
         registerMenu<T extends ConstructorOf<FormApplication>>(
             namespace: string,
             key: string,

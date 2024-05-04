@@ -5,7 +5,11 @@ function getItems(actor: Actor, itemTypes: string | string[] = []) {
     return types.length ? types.flatMap((type) => actor.itemTypes[type]) : actor.items;
 }
 
-function hasItemWithSourceId(actor: Actor, sourceId: string, itemTypes: string | string[]) {
+function hasItemWithSourceId(
+    actor: Actor,
+    sourceId: string | string[],
+    itemTypes?: string | string[]
+) {
     return getItems(actor, itemTypes).some(getSourceIdCondition(sourceId));
 }
 

@@ -8,25 +8,23 @@ function isCheckboxElement(el: Element): el is HTMLInputElement {
     return el instanceof HTMLInputElement && el.type === "checkbox";
 }
 
-function createHTMLFromString<T extends Element = HTMLElement>(content: string) {
+function createHTMLFromString<T extends Element = HTMLElement>(content: string, wrap = true) {
     const tmp = document.createElement("div");
     tmp.innerHTML = content;
 
     const children = tmp.children;
-    return children.length > 1 ? tmp : (children[0] as T);
+    return (children.length === 1 ? children[0] : wrap ? tmp : children) as T;
 }
 
 function applyHtmlMethod(
-    fn: (el: Element) => void,
+    fn: (...el: Element[]) => void,
     children: Element | HTMLCollection,
     context: Element
 ) {
     const fnc = context ? fn.bind(context) : fn;
 
     if (children instanceof HTMLCollection) {
-        for (const child of children) {
-            fnc(child);
-        }
+        fnc(...children);
     } else {
         fnc(children);
     }
@@ -37,19 +35,29 @@ function insertHTMLFromString<T extends Element = HTMLElement>(
     content: string,
     prepend = false
 ) {
-    const children = createHTMLFromString<T>(content);
-    applyHtmlMethod(prepend ? parent.prepend : parent.append, children, parent);
-    return children;
+    const html = createHTMLFromString<T>(content, false);
+    applyHtmlMethod(prepend ? parent.prepend : parent.append, html, parent);
+    return html;
 }
 
 function appendHTMLFromString<T extends Element = HTMLElement>(parent: Element, content: string) {
     return insertHTMLFromString<T>(parent, content, false);
 }
 
+function prependHTMLFromString<T extends Element = HTMLElement>(parent: Element, content: string) {
+    return insertHTMLFromString<T>(parent, content, true);
+}
+
 function beforeHTMLFromString<T extends Element = HTMLElement>(element: Element, content: string) {
-    const children = createHTMLFromString<T>(content);
-    applyHtmlMethod(element.before, children, element);
-    return children;
+    const html = createHTMLFromString<T>(content, false);
+    applyHtmlMethod(element.before, html, element);
+    return html;
+}
+
+function afterHTMLFromString<T extends Element = HTMLElement>(element: Element, content: string) {
+    const html = createHTMLFromString<T>(content, false);
+    applyHtmlMethod(element.after, html, element);
+    return html;
 }
 
 type ListenerCallback<TElement extends HTMLElement, TEvent extends EventType> = (
@@ -61,26 +69,35 @@ function addListener<TElement extends HTMLElement, TEvent extends EventType = "c
     parent: Element,
     selector: string,
     event: TEvent,
-    listener: ListenerCallback<TElement, TEvent>
+    listener: ListenerCallback<TElement, TEvent>,
+    useCapture?: boolean
 ): TElement | undefined;
 function addListener<TElement extends HTMLElement, TEvent extends EventType = "click">(
     parent: Element,
     selector: string,
-    listener: ListenerCallback<TElement, TEvent>
+    listener: ListenerCallback<TElement, TEvent>,
+    useCapture?: boolean
 ): TElement | undefined;
 function addListener<TElement extends HTMLElement, TEvent extends EventType = "click">(
     parent: Element,
     selector: string,
     arg1: TEvent | ListenerCallback<TElement, TEvent>,
-    arg2?: ListenerCallback<TElement, TEvent>
+    arg2?: ListenerCallback<TElement, TEvent> | boolean,
+    arg3?: boolean
 ): TElement | undefined {
     const element = parent.querySelector<TElement>(selector);
     if (!element) return;
 
     const event = typeof arg1 === "string" ? arg1 : "click";
-    const listener = typeof arg1 === "function" ? arg1 : arg2!;
+    const listener =
+        typeof arg1 === "function" ? arg1 : (arg2 as ListenerCallback<TElement, TEvent>);
+    const useCapture = typeof arg2 === "boolean" ? arg2 : arg3;
 
-    element.addEventListener(event, (e) => listener(e as HTMLElementEventMap[TEvent], element));
+    element.addEventListener(
+        event,
+        (e) => listener(e as HTMLElementEventMap[TEvent], element),
+        useCapture
+    );
 
     return element;
 }
@@ -142,8 +159,9 @@ function parentElement<E extends HTMLElement = HTMLElement>(el: Element) {
     return el.parentElement as E;
 }
 
-function elementData<T extends Record<string, string>>(el: HTMLElement) {
-    return el.dataset as T;
+function elementData<T extends Record<string, string>>(el: Element, selector?: string) {
+    const target = selector ? querySelector(el, selector) : el;
+    return ("dataset" in target && target.dataset) as T;
 }
 
 type DataToDatasetStringType<TKey extends string = string> = Partial<
@@ -161,19 +179,21 @@ function dataToDatasetString<TKey extends string>(data: DataToDatasetStringType<
 
 export type { DataToDatasetStringType };
 export {
+    addListener,
+    addListenerAll,
+    afterHTMLFromString,
+    appendHTMLFromString,
+    beforeHTMLFromString,
     closest,
+    createHTMLFromString,
     dataToDatasetString,
     elementData,
     htmlElement,
     isCheckboxElement,
-    createHTMLFromString,
-    appendHTMLFromString,
-    beforeHTMLFromString,
-    addListener,
-    addListenerAll,
+    parentElement,
+    prependHTMLFromString,
     querySelector,
     querySelectorArray,
     queryInClosest,
     queryInParent,
-    parentElement,
 };

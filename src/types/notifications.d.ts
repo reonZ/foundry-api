@@ -8,6 +8,8 @@ declare global {
     class Notifications {
         notify(message: string, type?: string, options?: NotificationsOptions): void;
         warn(message: string, options?: NotificationsOptions): void;
+        info(message: string, options?: NotificationsOptions): void;
+        error(message: string, options?: NotificationsOptions): void;
     }
 }
 

@@ -124,4 +124,16 @@ function subLocalize(subKey: string) {
     };
 }
 
-export { localize, localizeIfExist, hasLocalization, localizePath, templateLocalize, subLocalize };
+function localeCompare(a: string, b: string) {
+    return a.localeCompare(b, game.i18n.lang);
+}
+
+export {
+    localeCompare,
+    localize,
+    localizeIfExist,
+    hasLocalization,
+    localizePath,
+    templateLocalize,
+    subLocalize,
+};

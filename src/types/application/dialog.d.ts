@@ -27,8 +27,8 @@ declare global {
     interface DialogConfirmConfig<Y, N> {
         title?: string;
         content?: string;
-        yes?: DialogButton<Y>;
-        no?: DialogButton<N>;
+        yes?: DialogButton<Y>["callback"];
+        no?: DialogButton<N>["callback"];
         render?: (html: JQuery) => unknown;
         defaultYes?: boolean;
         rejectClose?: boolean;
@@ -36,10 +36,14 @@ declare global {
     }
 
     class Dialog extends FormApplication {
+        constructor(data: DialogData, options?: Partial<FormApplicationOptions>);
+
         static confirm<Y = true, N = false>(
             config?: DialogConfirmConfig<Y, N>
         ): Promise<Y | N | null>;
+
         static prompt<R = unknown>(config?: DialogPromptConfig): Promise<R>;
+
         static wait<R = unknown>(
             data?: DialogData<R>,
             options?: ApplicationOptions,

@@ -2,8 +2,9 @@ declare global {
     namespace foundry {
         namespace utils {
             function randomID(): string;
+            function objectsEqual(a: any, b: any): boolean;
             function flattenObject<O extends CyclicRecord>(o: O): FlattenedCyclicRecord<O>;
-            function renderTemplate(path: string, data: Record<string, unknown>): Promise<string>;
+            function renderTemplate(path: string, data?: Record<string, unknown>): Promise<string>;
             function deepClone<T>(original: T, options?: { strict: boolean }): T;
             function isSubclass(cls: unknown, parent: Function): cls is typeof FoundryDocument;
             function isEmpty(value: unknown): boolean;
@@ -27,7 +28,7 @@ declare global {
                 callback: (...args: T) => unknown,
                 delay?: number
             ): (...args: T) => void;
-            function fromUuid<T extends FoundryDocument>(uuid: string): Promise<T | undefined>;
+            function fromUuid<T extends FoundryDocument>(uuid?: string): Promise<T | undefined>;
             function fromUuidSync<
                 T extends FoundryDocument | CompendiumCollectionIndex = CompendiumCollectionIndex
             >(uuid: string): T | undefined;
@@ -46,6 +47,7 @@ declare global {
     }
 
     const randomID: typeof foundry.utils.randomID;
+    const objectsEqual: typeof foundry.utils.objectsEqual;
     const flattenObject: typeof foundry.utils.flattenObject;
     const renderTemplate: typeof foundry.utils.renderTemplate;
     const deepClone: typeof foundry.utils.deepClone;

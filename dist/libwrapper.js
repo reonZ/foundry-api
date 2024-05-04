@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerWrapper = void 0;
+exports.unregisterWrapper = exports.registerWrapper = void 0;
 const _1 = require(".");
 function registerWrapper(path, fn, type) {
     const ids = [];
@@ -13,3 +13,7 @@ function registerWrapper(path, fn, type) {
     return ids.length === 1 ? ids[0] : ids;
 }
 exports.registerWrapper = registerWrapper;
+function unregisterWrapper(id) {
+    libWrapper.unregister(_1.MODULE.id, id);
+}
+exports.unregisterWrapper = unregisterWrapper;

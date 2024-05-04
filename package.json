@@ -11,10 +11,10 @@
     "author": "Idle",
     "license": "ISC",
     "devDependencies": {
+        "@types/jquery": "^3.5.29",
         "typescript": "5.3.3"
     },
     "dependencies": {
-        "@types/jquery": "^3.5.29",
         "remeda": "1.43.0"
     }
 }

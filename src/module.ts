@@ -22,11 +22,16 @@ const MODULE = {
     throwError(str: string) {
         throw new Error(`\n[${this.name}] ${str}`);
     },
-    error(str: string, error?: any) {
-        console.error(`[${this.name}] ${str}`);
-        if (error) {
-            console.error(error);
+    error(str: string, error?: Error) {
+        let message = `[${this.name}] ${str}`;
+
+        if (error instanceof Error) {
+            message += `\n${error.message}`;
+        } else if (typeof error === "string") {
+            message += `\n${error}`;
         }
+
+        console.error(message);
     },
     log(str: string) {
         console.log(`[${this.name}] ${str}`);
@@ -43,4 +48,9 @@ const MODULE = {
     },
 };
 
-export { MODULE };
+function getActiveModule<T extends Module>(name: string) {
+    const module = game.modules.get<T>(name);
+    return module?.active ? module : undefined;
+}
+
+export { MODULE, getActiveModule };

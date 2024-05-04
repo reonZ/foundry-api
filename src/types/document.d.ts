@@ -19,7 +19,7 @@ declare global {
     type DocumentUUID = string;
 
     interface DocumentSourceData<
-        TType extends string = string,
+        TType extends string | number = string | number,
         TSystem extends Record<string, any> = Record<string, any>
     > {
         _id: string | null;
@@ -40,16 +40,18 @@ declare global {
     }
 
     class FoundryDocument<TParent = any> {
+        type: string | number;
+        flags: { [k: string]: any };
+
         static fromSource(
             source: object,
             options?: { strict?: boolean; [k: string]: any }
         ): FoundryDocument;
-        // static create<D extends DocumentSourceData = DocumentSourceData>(
-        //     data: Partial<D>,
-        //     context?: DocumentModificationContext
-        // ): Promise<FoundryDocument>;
 
-        static get implementation(): typeof FoundryDocument;
+        static deleteDocuments(
+            ids: string[],
+            context?: DocumentModificationContext
+        ): Promise<FoundryDocument[]>;
 
         get id(): string;
         get name(): string;
@@ -57,7 +59,11 @@ declare global {
         get parent(): TParent;
         get uuid(): string;
         get link(): string;
+        get documentName(): string;
+        get sheet(): DocumentSheet;
+        get permission(): (typeof CONST.DOCUMENT_PERMISSION_LEVELS)[keyof typeof CONST.DOCUMENT_PERMISSION_LEVELS];
 
+        reset(): void;
         prepareBaseData(): void;
         updateSource<D extends Record<string, any>>(
             changes: D,
@@ -67,21 +73,20 @@ declare global {
         setFlag(scope: string, key: string, value: unknown): Promise<this>;
         unsetFlag(scope: string, key: string): Promise<this>;
         update(
-            data: Record<string, unknown>,
+            data: object,
             context?: DocumentModificationContext<this>
         ): Promise<this | undefined>;
         toObject(source?: boolean): this["_source"];
         delete(context?: DocumentModificationContext): Promise<this | undefined>;
 
         clone(
-            data: Record<string, unknown> | undefined,
+            data: object | undefined,
             context: DocumentCloneContext & { save: true }
         ): Promise<this>;
-        clone(
-            data?: Record<string, unknown>,
-            context?: DocumentCloneContext & { save?: false }
-        ): this;
-        clone(data?: Record<string, unknown>, context?: DocumentCloneContext): this | Promise<this>;
+        clone(data?: object, context?: DocumentCloneContext & { save?: false }): this;
+        clone(data?: object, context?: DocumentCloneContext): this | Promise<this>;
+
+        canUserModify(user: User, action: UserAction, data?: Record<string, unknown>): boolean;
     }
 
     interface FoundryDocument {

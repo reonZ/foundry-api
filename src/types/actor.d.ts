@@ -9,17 +9,43 @@ declare global {
     }
 
     class Actor extends FoundryDocument {
+        static implementation: typeof Actor;
+
         type: string;
+        pack: string | null;
+        prototypeToken: PrototypeToken;
+        apps: Record<number, Application>;
 
         get name(): string;
         get itemTypes(): Record<string, Item[]>;
         get hasPlayerOwner(): boolean;
+        get isToken(): boolean;
+        get token(): TokenDocument | null;
+
+        render(force?: boolean, context?: RenderOptions): void;
 
         deleteEmbeddedDocuments(
             embeddedName: "Item",
             dataId: string[],
             context?: DocumentModificationContext<this>
         ): Promise<Item[]>;
+
+        testUserPermission(
+            user: User,
+            permission:
+                | keyof typeof CONST.DOCUMENT_PERMISSION_LEVELS
+                | (typeof CONST.DOCUMENT_PERMISSION_LEVELS)[keyof typeof CONST.DOCUMENT_PERMISSION_LEVELS],
+            options?: { exact?: boolean }
+        ): boolean;
+
+        getActiveTokens(linked: boolean | undefined, document: true): TokenDocument[];
+        getActiveTokens(linked?: boolean | undefined, document?: false): Token[];
+        getActiveTokens(linked?: boolean, document?: boolean): TokenDocument[] | Token[];
+
+        getDependentTokens(options?: {
+            scenes?: Scene | Scene[];
+            linked?: boolean;
+        }): TokenDocument[];
     }
 
     interface Actor {
