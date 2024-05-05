@@ -18,7 +18,7 @@ function getItemWithSourceId<T extends Item>(
     sourceId: string,
     itemTypes: string | string[]
 ) {
-    return getItems(actor, itemTypes).find(getSourceIdCondition(sourceId)) as T;
+    return getItems(actor, itemTypes).find(getSourceIdCondition(sourceId)) as T | undefined;
 }
 
 export { getItemWithSourceId, hasItemWithSourceId, getItems };
