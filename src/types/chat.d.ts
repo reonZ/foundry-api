@@ -47,9 +47,11 @@ declare global {
     class ChatMessage extends FoundryDocument {
         static get implementation(): typeof ChatMessage;
 
+        blind: boolean;
         flavor: string;
         speaker: ChatMessageSpeaker;
         content: string;
+        whisper: string[];
 
         get alias(): string;
         get isAuthor(): boolean;
