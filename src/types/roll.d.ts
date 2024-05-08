@@ -171,15 +171,18 @@ declare global {
         }?: EvaluateRollParams): Rolled<this> | Promise<Rolled<this>>;
 
         toMessage(
-            messageData: PreCreate<ChatMessageSourceData> | undefined,
+            messageData:
+                | PreCreate<ChatMessageSourceData>
+                | DeepPartial<ChatMessageSourceData>
+                | undefined,
             { rollMode, create }: { rollMode?: RollMode | "roll"; create: false }
         ): Promise<ChatMessageSourceData>;
         toMessage(
-            messageData?: PreCreate<ChatMessageSourceData>,
+            messageData?: PreCreate<ChatMessageSourceData> | DeepPartial<ChatMessageSourceData>,
             { rollMode, create }?: { rollMode?: RollMode | "roll"; create?: true }
         ): Promise<ChatMessage>;
         toMessage(
-            messageData?: PreCreate<ChatMessageSourceData>,
+            messageData?: PreCreate<ChatMessageSourceData> | DeepPartial<ChatMessageSourceData>,
             { rollMode, create }?: { rollMode?: RollMode | "roll"; create?: boolean }
         ): Promise<ChatMessage | ChatMessageSourceData>;
 
