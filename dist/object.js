@@ -21,12 +21,12 @@ function getInMemory(obj, ...path) {
 }
 exports.getInMemory = getInMemory;
 function setInMemory(obj, ...args) {
-    const value = args.splice(-1)[0];
+    const value = args.pop();
     return setProperty(obj, `modules.${module_1.MODULE.id}.${args.join(".")}`, value);
 }
 exports.setInMemory = setInMemory;
 function getInMemoryAndSetIfNot(obj, ...args) {
-    const value = args.splice(-1)[0];
+    const value = args.pop();
     const current = getInMemory(obj, ...args);
     if (current != null)
         return current;

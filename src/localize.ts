@@ -5,7 +5,7 @@ declare type LocalizeArgs = [...string[], string | Record<string, any>];
 function localize(...args: LocalizeArgs) {
     args.unshift(MODULE.id);
 
-    const data = typeof args.at(-1) === "object" ? args.splice(-1)[0] : undefined;
+    const data = typeof args.at(-1) === "object" ? args.pop() : undefined;
     const path = joinStr(".", args as string[]);
 
     if (typeof data === "object") {
@@ -18,7 +18,7 @@ function localize(...args: LocalizeArgs) {
 function localizeIfExist(...args: LocalizeArgs) {
     args.unshift(MODULE.id);
 
-    const data = typeof args.at(-1) === "object" ? args.splice(-1)[0] : undefined;
+    const data = typeof args.at(-1) === "object" ? args.pop() : undefined;
     const path = joinStr(".", args as string[]);
 
     if (!game.i18n.has(path, false)) return;

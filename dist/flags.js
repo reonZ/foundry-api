@@ -31,7 +31,7 @@ function getFlag(doc, ...path) {
 }
 exports.getFlag = getFlag;
 function setFlag(doc, ...args) {
-    const value = args.splice(-1)[0];
+    const value = args.pop();
     return doc.setFlag(_1.MODULE.id, args.join("."), value);
 }
 exports.setFlag = setFlag;
@@ -49,7 +49,7 @@ function updateFlag(doc, updates) {
 }
 exports.updateFlag = updateFlag;
 function updateSourceFlag(doc, ...args) {
-    const value = args.splice(-1)[0];
+    const value = args.pop();
     return doc.updateSource({
         [flagPath(...args)]: value,
     });
@@ -60,7 +60,7 @@ function getFlagProperty(obj, ...path) {
 }
 exports.getFlagProperty = getFlagProperty;
 function setFlagProperty(obj, ...args) {
-    const value = args.splice(-1)[0];
+    const value = args.pop();
     setProperty(obj, flagPath(...args), value);
     return obj;
 }

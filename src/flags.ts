@@ -6,7 +6,7 @@ function getFlag<T>(doc: FoundryDocument, ...path: string[]) {
 }
 
 function setFlag(doc: FoundryDocument, ...args: [...string[], any]) {
-    const value = args.splice(-1)[0];
+    const value = args.pop();
     return doc.setFlag(MODULE.id, args.join("."), value);
 }
 
@@ -27,7 +27,7 @@ function updateFlag<T extends Record<string, unknown>>(
 }
 
 function updateSourceFlag(doc: FoundryDocument, ...args: [...string[], any]) {
-    const value = args.splice(-1)[0];
+    const value = args.pop();
     return doc.updateSource({
         [flagPath(...args)]: value,
     });
@@ -38,7 +38,7 @@ function getFlagProperty<T>(obj: object, ...path: string[]) {
 }
 
 function setFlagProperty(obj: object, ...args: [...string[], any]) {
-    const value = args.splice(-1)[0];
+    const value = args.pop();
     setProperty(obj, flagPath(...args), value);
     return obj;
 }

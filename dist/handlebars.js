@@ -7,7 +7,7 @@ function templatePath(...path) {
 }
 exports.templatePath = templatePath;
 function render(...args) {
-    const data = typeof args.at(-1) === "object" ? args.splice(-1)[0] : {};
+    const data = typeof args.at(-1) === "object" ? args.pop() : {};
     const path = templatePath(...args);
     return renderTemplate(path, data);
 }

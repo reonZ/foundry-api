@@ -5,7 +5,7 @@ function templatePath(...path: string[]) {
 }
 
 function render(...args: [string, ...string[], Record<string, any>]) {
-    const data = typeof args.at(-1) === "object" ? args.splice(-1)[0] : {};
+    const data = typeof args.at(-1) === "object" ? args.pop() : {};
     const path = templatePath(...(args as string[]));
     return renderTemplate(path, data as Record<string, any>);
 }

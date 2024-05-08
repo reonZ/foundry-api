@@ -4,7 +4,7 @@ exports.subLocalize = exports.templateLocalize = exports.localizePath = exports.
 const _1 = require(".");
 function localize(...args) {
     args.unshift(_1.MODULE.id);
-    const data = typeof args.at(-1) === "object" ? args.splice(-1)[0] : undefined;
+    const data = typeof args.at(-1) === "object" ? args.pop() : undefined;
     const path = (0, _1.joinStr)(".", args);
     if (typeof data === "object") {
         return game.i18n.format(path, data);
@@ -14,7 +14,7 @@ function localize(...args) {
 exports.localize = localize;
 function localizeIfExist(...args) {
     args.unshift(_1.MODULE.id);
-    const data = typeof args.at(-1) === "object" ? args.splice(-1)[0] : undefined;
+    const data = typeof args.at(-1) === "object" ? args.pop() : undefined;
     const path = (0, _1.joinStr)(".", args);
     if (!game.i18n.has(path, false))
         return;
