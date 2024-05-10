@@ -18,6 +18,7 @@ export * from "./hooks";
 export * from "./item";
 export * from "./journal";
 export * from "./localization";
+export * from "./macro";
 export * from "./module";
 export * from "./notifications";
 export * from "./perception";

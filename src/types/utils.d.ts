@@ -28,10 +28,10 @@ declare global {
                 callback: (...args: T) => unknown,
                 delay?: number
             ): (...args: T) => void;
-            function fromUuid<T extends FoundryDocument>(uuid?: string): Promise<T | undefined>;
+            function fromUuid<T extends FoundryDocument>(uuid?: string): Promise<T | null>;
             function fromUuidSync<
                 T extends FoundryDocument | CompendiumCollectionIndex = CompendiumCollectionIndex
-            >(uuid: string): T | undefined;
+            >(uuid?: string): T | null;
             function isNewerVersion(v1: string, v2: string): boolean;
             function logCompatibilityWarning(
                 message: string,

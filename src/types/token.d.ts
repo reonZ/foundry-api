@@ -1,4 +1,7 @@
 declare global {
+    type TokenDisposition =
+        (typeof CONST.TOKEN_DISPOSITIONS)[keyof typeof CONST.TOKEN_DISPOSITIONS];
+
     class TokenDocument extends FoundryDocument {
         actorLink: boolean;
         x: number;
@@ -6,6 +9,7 @@ declare global {
         width: number;
         height: number;
         hidden: boolean;
+        disposition: TokenDisposition;
 
         get id(): string;
         get sort(): number;

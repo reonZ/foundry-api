@@ -34,6 +34,7 @@ declare global {
         scenes: Scenes;
         time: GameTime;
         messages: Messages;
+        macros: Macros;
     }
 
     const game: Game;

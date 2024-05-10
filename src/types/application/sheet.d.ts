@@ -12,6 +12,8 @@ declare global {
     class DocumentSheet<
         TObject extends FoundryDocument = FoundryDocument
     > extends FormApplication<TObject> {
+        get isEditable(): boolean;
+
         _updateObject(event: SubmitEvent, formData: Record<string, unknown>): Promise<void>;
     }
 

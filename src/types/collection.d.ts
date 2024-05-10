@@ -68,6 +68,8 @@ declare global {
     interface Scenes extends WorldCollection<Scene> {}
 
     interface Messages extends WorldCollection<ChatMessage> {}
+
+    interface Macros extends WorldCollection<Macro> {}
 }
 
 export type {};

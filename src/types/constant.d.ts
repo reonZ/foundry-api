@@ -52,6 +52,12 @@ declare global {
             HEXODDQ: 4;
             HEXEVENQ: 5;
         };
+        TOKEN_DISPOSITIONS: {
+            SECRET: -2;
+            HOSTILE: -1;
+            NEUTRAL: 0;
+            FRIENDLY: 1;
+        };
     }
 
     const CONST: GlobalConst;

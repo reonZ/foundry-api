@@ -3,6 +3,11 @@ declare global {
         type: string;
     }
 
+    interface ItemSheetData<TItem extends Item> extends DocumentSheetData<TItem> {
+        item: TItem;
+        data: object;
+    }
+
     type ItemSourceData<
         TType extends string = string,
         TSystem extends Record<string, any> = Record<string, any>
@@ -20,6 +25,8 @@ declare global {
     }
 
     class Item<TParent extends Actor = Actor> extends FoundryDocument<TParent> {
+        static get implementation(): typeof Item;
+
         get actor(): TParent;
         get img(): string;
 
@@ -35,6 +42,12 @@ declare global {
             name?: string;
             icon?: string;
         }): HTMLAnchorElement;
+
+        static fromDropData<TDocument extends foundry.abstract.Document>(
+            this: ConstructorOf<TDocument>,
+            data: object,
+            options?: Record<string, unknown>
+        ): Promise<TDocument | undefined>;
     }
 
     interface Item {

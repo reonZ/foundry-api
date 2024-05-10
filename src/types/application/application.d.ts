@@ -103,6 +103,7 @@ declare global {
         get title(): string;
         get template(): string;
         get element(): JQuery;
+        get rendered(): boolean;
 
         _render(force?: boolean, options?: Partial<ApplicationOptions>): Promise<void>;
         _canDragDrop(selector: string): boolean;
