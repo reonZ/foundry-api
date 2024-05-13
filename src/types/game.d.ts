@@ -35,6 +35,7 @@ declare global {
         time: GameTime;
         messages: Messages;
         macros: Macros;
+        keybindings: ClientKeybindings;
     }
 
     const game: Game;

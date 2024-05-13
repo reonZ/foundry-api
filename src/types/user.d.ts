@@ -13,6 +13,7 @@ declare global {
     class User extends FoundryDocument {
         active: boolean;
         targets: Set<Token>;
+        color: string;
 
         get character(): Actor | null;
         get isGM(): boolean;

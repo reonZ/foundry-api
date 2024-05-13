@@ -27,6 +27,9 @@ declare global {
 
         get id(): string;
         get actor(): TActor;
+        get center(): PIXI.Point;
+
+        _refreshVisibility(): void;
     }
 
     class PrototypeToken extends FoundryDocument {

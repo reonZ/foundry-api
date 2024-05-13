@@ -5,6 +5,7 @@ declare global {
         width?: number | "auto";
         height?: number | "auto";
         scale?: number;
+        zIndex?: number;
     };
 
     type ApplicationRenderOptions = ApplicationPositionOptions & {
@@ -84,6 +85,7 @@ declare global {
         constructor(options?: ApplicationOptions);
 
         appId: number;
+        position: ApplicationPositionOptions;
 
         static RENDER_STATES: {
             CLOSING: -2;
@@ -94,7 +96,7 @@ declare global {
             ERROR: 3;
         };
 
-        static getdefaultOptions(): ApplicationOptions;
+        static get defaultOptions(): ApplicationOptions;
 
         _state: (typeof Application.RENDER_STATES)[keyof typeof Application.RENDER_STATES];
         _dragDrop: DragDrop[];
@@ -106,6 +108,7 @@ declare global {
         get rendered(): boolean;
 
         _render(force?: boolean, options?: Partial<ApplicationOptions>): Promise<void>;
+        _renderInner(data: object, options: RenderOptions): Promise<JQuery>;
         _canDragDrop(selector: string): boolean;
         _onDrop(event: DragEvent): void;
         _createDragDropHandlers(): DragDrop[];
@@ -117,7 +120,7 @@ declare global {
         close(options?: { force?: boolean }): Promisable<void>;
         activateListeners(html: JQuery): Promisable<void>;
         bringToTop(): void;
-        setPosition(options?: ApplicationPositionOptions): Required<ApplicationPositionOptions>;
+        setPosition(options?: ApplicationPositionOptions): ApplicationPositionOptions;
     }
 }
 

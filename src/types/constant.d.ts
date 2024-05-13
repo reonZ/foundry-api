@@ -58,6 +58,11 @@ declare global {
             NEUTRAL: 0;
             FRIENDLY: 1;
         };
+        KEYBINDING_PRECEDENCE: {
+            PRIORITY: 0;
+            NORMAL: 1;
+            DEFERRED: 2;
+        };
     }
 
     const CONST: GlobalConst;

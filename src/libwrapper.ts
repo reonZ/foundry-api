@@ -72,5 +72,34 @@ function unregisterWrapper(id: number) {
     libWrapper.unregister(MODULE.id, id);
 }
 
+function createWrapper(
+    path: string,
+    callback: libWrapper.RegisterCallback,
+    type?: libWrapper.RegisterType,
+    options?: { onDisable?: () => void; onActivate?: () => void }
+) {
+    let wrapperId: number | null = null;
+
+    return {
+        activate() {
+            if (wrapperId !== null) return;
+            //  @ts-ignore
+            wrapperId = registerWrapper(path, callback, type ?? "WRAPPER");
+            options?.onActivate?.();
+        },
+        disable() {
+            if (wrapperId === null) return;
+
+            unregisterWrapper(wrapperId);
+            wrapperId = null;
+            options?.onDisable?.();
+        },
+        toggle(enabled: boolean) {
+            if (enabled) this.activate();
+            else this.disable();
+        },
+    };
+}
+
 export type { libWrapper };
-export { registerWrapper, unregisterWrapper };
+export { createWrapper, registerWrapper, unregisterWrapper };

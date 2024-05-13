@@ -17,6 +17,8 @@ export * from "./global";
 export * from "./hooks";
 export * from "./item";
 export * from "./journal";
+export * from "./keyboard";
+export * from "./keybindings";
 export * from "./localization";
 export * from "./macro";
 export * from "./module";

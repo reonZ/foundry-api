@@ -12,8 +12,8 @@ declare global {
         (
             | {
                   type: StringConstructor;
-                  choices?: Record<T, string> | T[];
-                  default: T;
+                  choices?: Record<T, string> | T[] | ReadonlyArray<T>;
+                  default: T | undefined;
                   onChange?: (value: T) => Promisable<void>;
               }
             | {

@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.compareArrays = exports.arrayIncludesOne = void 0;
+exports.getOnly = exports.compareArrays = exports.arrayIncludesOne = void 0;
 const R = __importStar(require("remeda"));
 function arrayIncludesOne(array, other) {
     return other.some((value) => array.includes(value));
@@ -43,3 +43,15 @@ function compareArrays(arr1, arr2, unique = false) {
     return true;
 }
 exports.compareArrays = compareArrays;
+function getOnly(collection, condition) {
+    if (!collection)
+        return;
+    const isArray = Array.isArray(collection);
+    if ((isArray && collection.length !== 1) || (!isArray && collection.size !== 1))
+        return;
+    const value = isArray ? collection[0] : collection.first();
+    if (!value)
+        return;
+    return ((!condition || condition(value)) && value) || undefined;
+}
+exports.getOnly = getOnly;

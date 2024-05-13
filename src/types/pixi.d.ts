@@ -3,6 +3,8 @@ declare global {
         TDocument extends CanvasDocument = CanvasDocument
     > extends PIXI.Container {
         hitArea: PIXI.Rectangle;
+
+        get isPreview(): boolean;
     }
 
     class RenderFlags extends Set<string> {
@@ -53,7 +55,7 @@ declare global {
 
     class PolygonVertex {}
 
-    abstract class CanvasLayer {}
+    abstract class CanvasLayer extends PIXI.Container {}
 
     abstract class InteractionLayer extends CanvasLayer {}
 
@@ -61,6 +63,7 @@ declare global {
         TObject extends PlaceableObject = PlaceableObject
     > extends InteractionLayer {
         quadtree: CanvasQuadtree<TObject>;
+        highlightObjects: boolean;
     }
 
     class CanvasQuadtree<
@@ -109,7 +112,27 @@ declare global {
             y: number;
         }
 
-        class Graphics extends Container {}
+        type ColorSource =
+            | string
+            | number
+            | number[]
+            | Float32Array
+            | Uint8Array
+            | Uint8ClampedArray
+            | Number;
+
+        class Graphics extends Container {
+            lineStyle(
+                width: number,
+                color?: ColorSource,
+                alpha?: number,
+                alignment?: number,
+                native?: boolean
+            ): this;
+            moveTo(x: number, y: number): this;
+            lineTo(x: number, y: number): this;
+            clear(): this;
+        }
 
         interface IPoint extends IPointData {
             copyFrom(p: IPointData): this;

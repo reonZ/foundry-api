@@ -10,4 +10,24 @@ function registerUpstreamHook(event: string, listener: HookCallback) {
     return id;
 }
 
-export { registerUpstreamHook };
+function createHook(hook: string, listener: HookCallback) {
+    let hookId: number | null = null;
+
+    return {
+        activate() {
+            if (hookId !== null) return;
+            hookId = Hooks.on(hook, listener);
+        },
+        disable() {
+            if (hookId === null) return;
+            Hooks.off(hook, hookId);
+            hookId = null;
+        },
+        toggle(enabled: boolean) {
+            if (enabled) this.activate();
+            else this.disable();
+        },
+    };
+}
+
+export { createHook, registerUpstreamHook };

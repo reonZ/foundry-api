@@ -5,6 +5,11 @@ declare global {
 
     class TokenLayer extends PlaceablesLayer<Token> {
         get placeables(): Token[];
+        get controlled(): Token[];
+    }
+
+    class ControlsLayer extends InteractionLayer {
+        debug: PIXI.Graphics;
     }
 
     type GridType = (typeof CONST.GRID_TYPES)[keyof typeof CONST.GRID_TYPES];
@@ -28,11 +33,13 @@ declare global {
         grid: GridLayer;
         dimensions: SceneDimensions;
         perception: PerceptionManager;
+        controls: ControlsLayer;
 
         get scene(): Scene;
         get ready(): boolean;
 
         ping(origin: Point, options?: Record<string, unknown>): Promise<boolean>;
+        clientCoordinatesFromCanvas(origin: Point): Point;
     }
 
     const canvas: Canvas;

@@ -19,4 +19,16 @@ function compareArrays<T extends any>(arr1: T[], arr2: T[], unique = false) {
     return true;
 }
 
-export { arrayIncludesOne, compareArrays };
+function getOnly<T>(collection: T[] | Set<T> | undefined, condition?: (value: T) => boolean) {
+    if (!collection) return;
+
+    const isArray = Array.isArray(collection);
+    if ((isArray && collection.length !== 1) || (!isArray && collection.size !== 1)) return;
+
+    const value = isArray ? collection[0] : collection.first();
+    if (!value) return;
+
+    return ((!condition || condition(value)) && value) || undefined;
+}
+
+export { arrayIncludesOne, compareArrays, getOnly };

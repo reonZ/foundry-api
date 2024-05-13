@@ -12,5 +12,13 @@ declare function registerWrapper<P extends string | string[], R extends Promisab
 declare function registerWrapper<P extends string | string[], R extends Promisable<any>>(path: P, fn: libWrapper.RegisterOverrideCallback<R>, type: "OVERRIDE"): P extends string[] ? number[] : number;
 declare function registerWrapper<P extends string | string[], R extends Promisable<any>>(path: P, fn: libWrapper.RegisterWrappedCallback<R>, type: "WRAPPER"): P extends string[] ? number[] : number;
 declare function unregisterWrapper(id: number): void;
+declare function createWrapper(path: string, callback: libWrapper.RegisterCallback, type?: libWrapper.RegisterType, options?: {
+    onDisable?: () => void;
+    onActivate?: () => void;
+}): {
+    activate(): void;
+    disable(): void;
+    toggle(enabled: boolean): void;
+};
 export type { libWrapper };
-export { registerWrapper, unregisterWrapper };
+export { createWrapper, registerWrapper, unregisterWrapper };
