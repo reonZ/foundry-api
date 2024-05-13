@@ -42,6 +42,9 @@ declare global {
     class FoundryDocument<TParent = any> {
         type: string | number;
         flags: { [k: string]: any };
+        _stats: {
+            compendiumSource: string | null;
+        };
 
         static fromSource(
             source: object,

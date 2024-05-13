@@ -1,7 +1,5 @@
-import { MODULE } from "./module";
-
 function getSourceId(doc: FoundryDocument) {
-    return doc.getFlag<string>("core", "sourceId");
+    return doc._stats.compendiumSource ?? doc.flags.core?.sourceId;
 }
 
 function includesSourceId(doc: FoundryDocument, list: string[]) {
@@ -27,4 +25,4 @@ function getSortBounds<T extends { sort: number }>(collection: T[] | Collection<
     return { min, max };
 }
 
-export { getSourceId, getSourceIdCondition, getSortBounds };
+export { getSortBounds, getSourceId, getSourceIdCondition };

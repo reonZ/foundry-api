@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSortBounds = exports.getSourceIdCondition = exports.getSourceId = void 0;
+exports.getSourceIdCondition = exports.getSourceId = exports.getSortBounds = void 0;
 function getSourceId(doc) {
-    return doc.getFlag("core", "sourceId");
+    return doc._stats.compendiumSource ?? doc.flags.core?.sourceId;
 }
 exports.getSourceId = getSourceId;
 function includesSourceId(doc, list) {

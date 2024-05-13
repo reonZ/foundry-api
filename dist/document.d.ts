@@ -1,4 +1,4 @@
-declare function getSourceId(doc: FoundryDocument): string | undefined;
+declare function getSourceId(doc: FoundryDocument): any;
 declare function getSourceIdCondition(sourceId: string | string[]): (item: Item) => boolean;
 declare function getSortBounds<T extends {
     sort: number;
@@ -6,4 +6,4 @@ declare function getSortBounds<T extends {
     min: number;
     max: number;
 };
-export { getSourceId, getSourceIdCondition, getSortBounds };
+export { getSortBounds, getSourceId, getSourceIdCondition };
