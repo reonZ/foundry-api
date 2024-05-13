@@ -32,7 +32,6 @@ declare global {
     interface EvaluateRollParams {
         minimize?: boolean;
         maximize?: boolean;
-        async?: boolean;
     }
 
     interface RollJSON {
@@ -156,21 +155,7 @@ declare global {
             { multiplyNumeric }?: { multiplyNumeric?: boolean }
         ): this;
 
-        evaluate({
-            minimize,
-            maximize,
-            async,
-        }: EvaluateRollParams & { async?: false }): Rolled<this>;
-        evaluate({
-            minimize,
-            maximize,
-            async,
-        }?: EvaluateRollParams & { async: true }): Promise<Rolled<this>>;
-        evaluate({
-            minimize,
-            maximize,
-            async,
-        }?: EvaluateRollParams): Rolled<this> | Promise<Rolled<this>>;
+        evaluate(options?: EvaluateRollParams): Promise<Rolled<this>>;
 
         toMessage(
             messageData:
