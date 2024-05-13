@@ -14,7 +14,7 @@ declare global {
             };
         };
         Dice: {
-            types: (typeof Die | typeof DiceTerm)[];
+            types: (typeof foundry.dice.terms.Die | typeof DiceTerm)[];
             rollModes: Record<RollMode, string>;
             rolls: ConstructorOf<Roll>[];
             termTypes: Record<
@@ -23,7 +23,7 @@ declare global {
             >;
             terms: {
                 c: typeof Coin;
-                d: typeof Die;
+                d: typeof foundry.dice.terms.Die;
                 f: typeof FateDie;
                 [key: string]: ConstructorOf<DiceTerm>;
             };
