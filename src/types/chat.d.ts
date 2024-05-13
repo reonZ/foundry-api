@@ -18,7 +18,8 @@ declare global {
         speaker?: ChatMessageSpeaker;
     }
 
-    type ChatMessageType = (typeof CONST.CHAT_MESSAGE_TYPES)[keyof typeof CONST.CHAT_MESSAGE_TYPES];
+    type ChatMessageType =
+        (typeof CONST.CHAT_MESSAGE_STYLES)[keyof typeof CONST.CHAT_MESSAGE_STYLES];
 
     interface ChatMessageSourceData extends DocumentSourceData {
         user: string;
@@ -81,7 +82,7 @@ declare global {
 
     interface ChatMessage {
         _source: ChatMessageSourceData;
-        type: (typeof CONST.CHAT_MESSAGE_TYPES)[keyof typeof CONST.CHAT_MESSAGE_TYPES];
+        type: (typeof CONST.CHAT_MESSAGE_STYLES)[keyof typeof CONST.CHAT_MESSAGE_STYLES];
     }
 
     class ChatLog extends SidebarTab {

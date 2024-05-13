@@ -1,6 +1,6 @@
 declare global {
     interface GlobalConst {
-        CHAT_MESSAGE_TYPES: {
+        CHAT_MESSAGE_STYLES: {
             OTHER: 0;
             OOC: 1;
             IC: 2;
