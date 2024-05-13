@@ -22,7 +22,7 @@ declare global {
     }
 
     interface Math {
-        clamped(num: number, min: number, max: number): number;
+        clamp(num: number, min: number, max: number): number;
         mix(a: number, b: number, w: number): number;
         normalizeDegrees(degrees: number, base?: number): number;
         normalizeRadians(radians: number): number;
