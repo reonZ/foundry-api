@@ -72,6 +72,8 @@ function addListenerAll(parent, selector, arg1, arg2) {
 }
 exports.addListenerAll = addListenerAll;
 function querySelector(parent, selector) {
+    if (!parent)
+        return null;
     return parent.querySelector(selector);
 }
 exports.querySelector = querySelector;
@@ -89,6 +91,8 @@ function queryInParent(el, childSelector) {
 }
 exports.queryInParent = queryInParent;
 function closest(el, selector) {
+    if (!el)
+        return null;
     return el.closest(selector);
 }
 exports.closest = closest;
@@ -96,9 +100,8 @@ function parentElement(el) {
     return el.parentElement;
 }
 exports.parentElement = parentElement;
-function elementData(el, selector) {
-    const target = selector ? querySelector(el, selector) : el;
-    return ("dataset" in target && target.dataset);
+function elementData(el) {
+    return el.dataset;
 }
 exports.elementData = elementData;
 function dataToDatasetString(data) {
