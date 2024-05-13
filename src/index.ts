@@ -15,6 +15,7 @@ export * from "./item";
 export * from "./keybindings";
 export * from "./libwrapper";
 export * from "./localize";
+export * from "./math";
 export * from "./module";
 export * from "./notifications";
 export * from "./object";
