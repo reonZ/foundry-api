@@ -47,7 +47,6 @@ declare global {
     }
 
     const renderTemplate: typeof foundry.utils.renderTemplate;
-    const deepClone: typeof foundry.utils.deepClone;
     const loadTemplates: typeof foundry.utils.loadTemplates;
     const fromUuid: typeof foundry.utils.fromUuid;
     const fromUuidSync: typeof foundry.utils.fromUuidSync;
