@@ -31,32 +31,53 @@ function applyHtmlMethod(
 }
 
 function insertHTMLFromString<T extends Element = HTMLElement>(
-    parent: Element,
+    parent: Element | null,
     content: string,
     prepend = false
 ) {
+    if (!parent) return;
+
     const html = createHTMLFromString<T>(content, false);
     applyHtmlMethod(prepend ? parent.prepend : parent.append, html, parent);
+
     return html;
 }
 
-function appendHTMLFromString<T extends Element = HTMLElement>(parent: Element, content: string) {
+function appendHTMLFromString<T extends Element = HTMLElement>(
+    parent: Element | null,
+    content: string
+) {
     return insertHTMLFromString<T>(parent, content, false);
 }
 
-function prependHTMLFromString<T extends Element = HTMLElement>(parent: Element, content: string) {
+function prependHTMLFromString<T extends Element = HTMLElement>(
+    parent: Element | null,
+    content: string
+) {
     return insertHTMLFromString<T>(parent, content, true);
 }
 
-function beforeHTMLFromString<T extends Element = HTMLElement>(element: Element, content: string) {
+function beforeHTMLFromString<T extends Element = HTMLElement>(
+    element: Element | null,
+    content: string
+) {
+    if (!element) return;
+
     const html = createHTMLFromString<T>(content, false);
     applyHtmlMethod(element.before, html, element);
+
     return html;
 }
 
-function afterHTMLFromString<T extends Element = HTMLElement>(element: Element, content: string) {
+function afterHTMLFromString<T extends Element = HTMLElement>(
+    element: Element | null,
+    content: string
+) {
+    if (!element) return;
+
     const html = createHTMLFromString<T>(content, false);
     applyHtmlMethod(element.after, html, element);
+
     return html;
 }
 
@@ -130,11 +151,16 @@ function addListenerAll<TElement extends HTMLElement, TEvent extends EventType =
     return elements;
 }
 
-function querySelector<E extends Element = HTMLElement>(parent: Element, selector: string) {
-    return parent.querySelector<E>(selector)!;
+function querySelector<E extends Element = HTMLElement>(parent: Element | null, selector: string) {
+    if (!parent) return null;
+    return parent.querySelector<E>(selector);
 }
 
-function querySelectorArray<E extends Element = HTMLElement>(parent: Element, selector: string) {
+function querySelectorArray<E extends Element = HTMLElement>(
+    parent: Element | null,
+    selector: string
+) {
+    if (!parent) return [];
     return Array.from(parent.querySelectorAll<E>(selector));
 }
 
@@ -148,20 +174,20 @@ function queryInClosest<E extends Element = HTMLElement>(
 }
 
 function queryInParent<E extends Element = HTMLElement>(el: Element, childSelector: string) {
-    return querySelector<E>(el.parentElement!, childSelector);
+    return querySelector<E>(el.parentElement, childSelector);
 }
 
-function closest<E extends Element = HTMLElement>(el: Element, selector: string) {
-    return el.closest<E>(selector)!;
+function closest<E extends Element = HTMLElement>(el: Element | null, selector: string) {
+    if (!el) return null;
+    return el.closest<E>(selector);
 }
 
 function parentElement<E extends HTMLElement = HTMLElement>(el: Element) {
-    return el.parentElement as E;
+    return el.parentElement as E | null;
 }
 
-function elementData<T extends Record<string, string>>(el: Element, selector?: string) {
-    const target = selector ? querySelector(el, selector) : el;
-    return ("dataset" in target && target.dataset) as T;
+function elementData<T extends Record<string, string>>(el: Element) {
+    return (el as HTMLElement).dataset as T;
 }
 
 type DataToDatasetStringType<TKey extends string = string> = Partial<

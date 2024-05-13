@@ -26,6 +26,8 @@ function applyHtmlMethod(fn, children, context) {
     }
 }
 function insertHTMLFromString(parent, content, prepend = false) {
+    if (!parent)
+        return;
     const html = createHTMLFromString(content, false);
     applyHtmlMethod(prepend ? parent.prepend : parent.append, html, parent);
     return html;
@@ -39,12 +41,16 @@ function prependHTMLFromString(parent, content) {
 }
 exports.prependHTMLFromString = prependHTMLFromString;
 function beforeHTMLFromString(element, content) {
+    if (!element)
+        return;
     const html = createHTMLFromString(content, false);
     applyHtmlMethod(element.before, html, element);
     return html;
 }
 exports.beforeHTMLFromString = beforeHTMLFromString;
 function afterHTMLFromString(element, content) {
+    if (!element)
+        return;
     const html = createHTMLFromString(content, false);
     applyHtmlMethod(element.after, html, element);
     return html;
@@ -72,10 +78,14 @@ function addListenerAll(parent, selector, arg1, arg2) {
 }
 exports.addListenerAll = addListenerAll;
 function querySelector(parent, selector) {
+    if (!parent)
+        return null;
     return parent.querySelector(selector);
 }
 exports.querySelector = querySelector;
 function querySelectorArray(parent, selector) {
+    if (!parent)
+        return [];
     return Array.from(parent.querySelectorAll(selector));
 }
 exports.querySelectorArray = querySelectorArray;
@@ -89,6 +99,8 @@ function queryInParent(el, childSelector) {
 }
 exports.queryInParent = queryInParent;
 function closest(el, selector) {
+    if (!el)
+        return null;
     return el.closest(selector);
 }
 exports.closest = closest;
@@ -96,9 +108,8 @@ function parentElement(el) {
     return el.parentElement;
 }
 exports.parentElement = parentElement;
-function elementData(el, selector) {
-    const target = selector ? querySelector(el, selector) : el;
-    return ("dataset" in target && target.dataset);
+function elementData(el) {
+    return el.dataset;
 }
 exports.elementData = elementData;
 function dataToDatasetString(data) {
