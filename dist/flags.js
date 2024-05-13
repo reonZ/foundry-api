@@ -56,17 +56,17 @@ function updateSourceFlag(doc, ...args) {
 }
 exports.updateSourceFlag = updateSourceFlag;
 function getFlagProperty(obj, ...path) {
-    return getProperty(obj, flagPath(...path));
+    return foundry.utils.getProperty(obj, flagPath(...path));
 }
 exports.getFlagProperty = getFlagProperty;
 function setFlagProperty(obj, ...args) {
     const value = args.pop();
-    setProperty(obj, flagPath(...args), value);
+    foundry.utils.setProperty(obj, flagPath(...args), value);
     return obj;
 }
 exports.setFlagProperty = setFlagProperty;
 function getModuleFlag(doc) {
-    return getProperty(doc, `flags.${_1.MODULE.id}`);
+    return foundry.utils.getProperty(doc, `flags.${_1.MODULE.id}`);
 }
 exports.getModuleFlag = getModuleFlag;
 function hasModuleFlag(doc) {

@@ -17,12 +17,12 @@ function isInstanceOf<T>(obj: any, name: string): obj is T {
 }
 
 function getInMemory<T>(obj: object, ...path: string[]) {
-    return getProperty<T>(obj, `modules.${MODULE.id}.${path.join(".")}`);
+    return foundry.utils.getProperty<T>(obj, `modules.${MODULE.id}.${path.join(".")}`);
 }
 
 function setInMemory<T>(obj: object, ...args: [...string[], T]) {
     const value = args.pop();
-    return setProperty(obj, `modules.${MODULE.id}.${args.join(".")}`, value);
+    return foundry.utils.setProperty(obj, `modules.${MODULE.id}.${args.join(".")}`, value);
 }
 
 function getInMemoryAndSetIfNot<T>(obj: object, ...args: [...string[], (() => T) | T]) {

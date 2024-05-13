@@ -17,12 +17,12 @@ function isInstanceOf(obj, name) {
 }
 exports.isInstanceOf = isInstanceOf;
 function getInMemory(obj, ...path) {
-    return getProperty(obj, `modules.${module_1.MODULE.id}.${path.join(".")}`);
+    return foundry.utils.getProperty(obj, `modules.${module_1.MODULE.id}.${path.join(".")}`);
 }
 exports.getInMemory = getInMemory;
 function setInMemory(obj, ...args) {
     const value = args.pop();
-    return setProperty(obj, `modules.${module_1.MODULE.id}.${args.join(".")}`, value);
+    return foundry.utils.setProperty(obj, `modules.${module_1.MODULE.id}.${args.join(".")}`, value);
 }
 exports.setInMemory = setInMemory;
 function getInMemoryAndSetIfNot(obj, ...args) {

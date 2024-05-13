@@ -34,17 +34,17 @@ function updateSourceFlag(doc: FoundryDocument, ...args: [...string[], any]) {
 }
 
 function getFlagProperty<T>(obj: object, ...path: string[]) {
-    return getProperty<T>(obj, flagPath(...path));
+    return foundry.utils.getProperty<T>(obj, flagPath(...path));
 }
 
 function setFlagProperty(obj: object, ...args: [...string[], any]) {
     const value = args.pop();
-    setProperty(obj, flagPath(...args), value);
+    foundry.utils.setProperty(obj, flagPath(...args), value);
     return obj;
 }
 
 function getModuleFlag<T extends Record<string, unknown>>(doc: FoundryDocument) {
-    return getProperty<T>(doc, `flags.${MODULE.id}`);
+    return foundry.utils.getProperty<T>(doc, `flags.${MODULE.id}`);
 }
 
 function hasModuleFlag<T extends Record<string, unknown>>(doc: FoundryDocument) {

@@ -46,22 +46,11 @@ declare global {
         }
     }
 
-    const randomID: typeof foundry.utils.randomID;
-    const objectsEqual: typeof foundry.utils.objectsEqual;
-    const flattenObject: typeof foundry.utils.flattenObject;
     const renderTemplate: typeof foundry.utils.renderTemplate;
     const deepClone: typeof foundry.utils.deepClone;
-    const isSubclass: typeof foundry.utils.isSubclass;
-    const isEmpty: typeof foundry.utils.isEmpty;
-    const getProperty: typeof foundry.utils.getProperty;
-    const setProperty: typeof foundry.utils.setProperty;
-    const mergeObject: typeof foundry.utils.mergeObject;
     const loadTemplates: typeof foundry.utils.loadTemplates;
-    const debounce: typeof foundry.utils.debounce;
     const fromUuid: typeof foundry.utils.fromUuid;
     const fromUuidSync: typeof foundry.utils.fromUuidSync;
-    const isNewerVersion: typeof foundry.utils.isNewerVersion;
-    const logCompatibilityWarning: typeof foundry.utils.logCompatibilityWarning;
 }
 
 export type {};
