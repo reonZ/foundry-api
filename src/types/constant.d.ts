@@ -37,13 +37,6 @@ declare global {
             OBSERVER: 2;
             OWNER: 3;
         };
-        DOCUMENT_PERMISSION_LEVELS: {
-            INHERIT: -1;
-            NONE: 0;
-            LIMITED: 1;
-            OBSERVER: 2;
-            OWNER: 3;
-        };
         GRID_TYPES: {
             GRIDLESS: 0;
             SQUARE: 1;

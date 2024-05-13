@@ -33,8 +33,8 @@ declare global {
         testUserPermission(
             user: User,
             permission:
-                | keyof typeof CONST.DOCUMENT_PERMISSION_LEVELS
-                | (typeof CONST.DOCUMENT_PERMISSION_LEVELS)[keyof typeof CONST.DOCUMENT_PERMISSION_LEVELS],
+                | keyof typeof CONST.DOCUMENT_OWNERSHIP_LEVELS
+                | (typeof CONST.DOCUMENT_OWNERSHIP_LEVELS)[keyof typeof CONST.DOCUMENT_OWNERSHIP_LEVELS],
             options?: { exact?: boolean }
         ): boolean;
 

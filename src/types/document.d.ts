@@ -61,7 +61,7 @@ declare global {
         get link(): string;
         get documentName(): string;
         get sheet(): DocumentSheet;
-        get permission(): (typeof CONST.DOCUMENT_PERMISSION_LEVELS)[keyof typeof CONST.DOCUMENT_PERMISSION_LEVELS];
+        get permission(): (typeof CONST.DOCUMENT_OWNERSHIP_LEVELS)[keyof typeof CONST.DOCUMENT_OWNERSHIP_LEVELS];
 
         reset(): void;
         prepareBaseData(): void;
