@@ -28,12 +28,19 @@ declare global {
         getHighlightLayer(name: string): GridHighlight | undefined;
     }
 
+    class CanvasGroup extends PIXI.Container {}
+
+    class InterfaceCanvasGroup extends CanvasGroup {
+        grid: GridLayer;
+    }
+
     class Canvas {
         tokens: TokenLayer;
         grid: GridLayer;
         dimensions: SceneDimensions;
         perception: PerceptionManager;
         controls: ControlsLayer;
+        interface: InterfaceCanvasGroup;
 
         get scene(): Scene;
         get ready(): boolean;
