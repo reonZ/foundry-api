@@ -26,6 +26,8 @@ function applyHtmlMethod(fn, children, context) {
     }
 }
 function insertHTMLFromString(parent, content, prepend = false) {
+    if (!parent)
+        return;
     const html = createHTMLFromString(content, false);
     applyHtmlMethod(prepend ? parent.prepend : parent.append, html, parent);
     return html;
@@ -39,12 +41,16 @@ function prependHTMLFromString(parent, content) {
 }
 exports.prependHTMLFromString = prependHTMLFromString;
 function beforeHTMLFromString(element, content) {
+    if (!element)
+        return;
     const html = createHTMLFromString(content, false);
     applyHtmlMethod(element.before, html, element);
     return html;
 }
 exports.beforeHTMLFromString = beforeHTMLFromString;
 function afterHTMLFromString(element, content) {
+    if (!element)
+        return;
     const html = createHTMLFromString(content, false);
     applyHtmlMethod(element.after, html, element);
     return html;
@@ -78,6 +84,8 @@ function querySelector(parent, selector) {
 }
 exports.querySelector = querySelector;
 function querySelectorArray(parent, selector) {
+    if (!parent)
+        return [];
     return Array.from(parent.querySelectorAll(selector));
 }
 exports.querySelectorArray = querySelectorArray;

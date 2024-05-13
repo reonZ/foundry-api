@@ -31,32 +31,53 @@ function applyHtmlMethod(
 }
 
 function insertHTMLFromString<T extends Element = HTMLElement>(
-    parent: Element,
+    parent: Element | null,
     content: string,
     prepend = false
 ) {
+    if (!parent) return;
+
     const html = createHTMLFromString<T>(content, false);
     applyHtmlMethod(prepend ? parent.prepend : parent.append, html, parent);
+
     return html;
 }
 
-function appendHTMLFromString<T extends Element = HTMLElement>(parent: Element, content: string) {
+function appendHTMLFromString<T extends Element = HTMLElement>(
+    parent: Element | null,
+    content: string
+) {
     return insertHTMLFromString<T>(parent, content, false);
 }
 
-function prependHTMLFromString<T extends Element = HTMLElement>(parent: Element, content: string) {
+function prependHTMLFromString<T extends Element = HTMLElement>(
+    parent: Element | null,
+    content: string
+) {
     return insertHTMLFromString<T>(parent, content, true);
 }
 
-function beforeHTMLFromString<T extends Element = HTMLElement>(element: Element, content: string) {
+function beforeHTMLFromString<T extends Element = HTMLElement>(
+    element: Element | null,
+    content: string
+) {
+    if (!element) return;
+
     const html = createHTMLFromString<T>(content, false);
     applyHtmlMethod(element.before, html, element);
+
     return html;
 }
 
-function afterHTMLFromString<T extends Element = HTMLElement>(element: Element, content: string) {
+function afterHTMLFromString<T extends Element = HTMLElement>(
+    element: Element | null,
+    content: string
+) {
+    if (!element) return;
+
     const html = createHTMLFromString<T>(content, false);
     applyHtmlMethod(element.after, html, element);
+
     return html;
 }
 
@@ -135,7 +156,11 @@ function querySelector<E extends Element = HTMLElement>(parent: Element | null, 
     return parent.querySelector<E>(selector);
 }
 
-function querySelectorArray<E extends Element = HTMLElement>(parent: Element, selector: string) {
+function querySelectorArray<E extends Element = HTMLElement>(
+    parent: Element | null,
+    selector: string
+) {
+    if (!parent) return [];
     return Array.from(parent.querySelectorAll<E>(selector));
 }
 
