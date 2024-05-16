@@ -8,12 +8,6 @@ declare global {
         zIndex?: number;
     };
 
-    type ApplicationRenderOptions = ApplicationPositionOptions & {
-        focus?: boolean;
-        renderContext?: string;
-        renderData?: Record<string, unknown>;
-    };
-
     type TabsConfiguration = {
         group: string;
         navSelector: string;
@@ -116,7 +110,7 @@ declare global {
 
         activateTab(tabName: string, options?: { group?: string; triggerCallback?: boolean }): void;
         getData(options?: object): Promisable<Record<string, unknown>>;
-        render(force?: boolean, options?: ApplicationRenderOptions): this;
+        render(force?: boolean, options?: RenderOptions): this;
         close(options?: { force?: boolean }): Promisable<void>;
         activateListeners(html: JQuery): Promisable<void>;
         bringToTop(): void;

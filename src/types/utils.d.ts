@@ -1,4 +1,6 @@
 declare global {
+    class Color extends Number {}
+
     namespace foundry {
         namespace utils {
             function randomID(): string;

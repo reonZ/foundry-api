@@ -3,8 +3,10 @@ declare global {
         TDocument extends CanvasDocument = CanvasDocument
     > extends PIXI.Container {
         hitArea: PIXI.Rectangle;
+        document: TDocument;
 
         get isPreview(): boolean;
+        get layer(): this["document"]["layer"];
     }
 
     class RenderFlags extends Set<string> {
@@ -248,6 +250,7 @@ declare global {
         interface ISpriteMaskFilter extends Filter {
             maskSprite: IMaskTarget;
         }
+
         abstract class DisplayObject {
             abstract sortDirty: boolean;
             parent: Container;
@@ -302,6 +305,7 @@ declare global {
             destroy(_options?: IDestroyOptions | boolean): void;
             enableTempParent(): Container;
             disableTempParent(cacheParent: Container): void;
+            getGlobalPosition(point?: Point, skipUpdate?: boolean): Point;
             get x(): number;
             set x(value: number);
             get y(): number;

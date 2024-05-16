@@ -10,18 +10,24 @@ function registerUpstreamHook(event: string, listener: HookCallback) {
     return id;
 }
 
-function createHook(hook: string, listener: HookCallback) {
-    let hookId: number | null = null;
+function createHook(hooks: string | string[], listener: HookCallback) {
+    const hookIds: { id: number; hook: string }[] = [];
+    hooks = Array.isArray(hooks) ? hooks : [hooks];
 
     return {
         activate() {
-            if (hookId !== null) return;
-            hookId = Hooks.on(hook, listener);
+            if (hookIds.length) return;
+            for (const hook of hooks) {
+                const id = Hooks.on(hook, listener);
+                hookIds.push({ id, hook });
+            }
         },
         disable() {
-            if (hookId === null) return;
-            Hooks.off(hook, hookId);
-            hookId = null;
+            if (!hookIds.length) return;
+            for (const { hook, id } of hookIds) {
+                Hooks.off(hook, id);
+            }
+            hookIds.length = 0;
         },
         toggle(enabled: boolean) {
             if (enabled) this.activate();

@@ -29,6 +29,15 @@ declare global {
             };
             randomUniform: Function;
         };
+        Token: {
+            documentClass: typeof TokenDocument;
+            hudClass: typeof TokenHUD;
+            layerClass: typeof TokenLayer;
+            objectClass: typeof Token;
+            // prototypeSheetClass: typeof TokenConfig;
+        };
+        Tile: {};
+        Drawing: {};
     }
 
     const CONFIG: GlobalConfig;

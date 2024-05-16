@@ -1,6 +1,14 @@
 declare global {
-    interface CanvasDocument extends FoundryDocument {
+    interface CanvasViewPosition {
+        x: number | null;
+        y: number | null;
+        scale: number | null;
+    }
+
+    class CanvasDocument extends FoundryDocument {
         hidden?: boolean;
+
+        get layer(): PlaceablesLayer;
     }
 
     class TokenLayer extends PlaceablesLayer<Token> {
@@ -34,13 +42,18 @@ declare global {
         grid: GridLayer;
     }
 
+    class PrimaryCanvasGroup extends CanvasGroup {}
+
     class Canvas {
         tokens: TokenLayer;
-        grid: GridLayer;
+        grid: SquareGrid;
         dimensions: SceneDimensions;
         perception: PerceptionManager;
         controls: ControlsLayer;
         interface: InterfaceCanvasGroup;
+        primary: PrimaryCanvasGroup;
+        stage: PIXI.Container;
+        hud: HeadsUpDisplay;
 
         get scene(): Scene;
         get ready(): boolean;

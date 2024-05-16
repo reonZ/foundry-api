@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.queryInParent = exports.queryInClosest = exports.querySelectorArray = exports.querySelector = exports.prependHTMLFromString = exports.parentElement = exports.isCheckboxElement = exports.htmlElement = exports.elementData = exports.dataToDatasetString = exports.createHTMLFromString = exports.closest = exports.beforeHTMLFromString = exports.appendHTMLFromString = exports.afterHTMLFromString = exports.addListenerAll = exports.addListener = void 0;
+exports.queryInParent = exports.queryInClosest = exports.querySelectorArray = exports.querySelector = exports.prependHTMLFromString = exports.parentElement = exports.isCheckboxElement = exports.htmlElement = exports.elementData = exports.dataToDatasetString = exports.createHTMLFromString = exports.createGlobalEvent = exports.closest = exports.beforeHTMLFromString = exports.appendHTMLFromString = exports.afterHTMLFromString = exports.addListenerAll = exports.addListener = void 0;
 function htmlElement(el) {
     return el instanceof HTMLElement ? el : el[0];
 }
@@ -121,3 +121,27 @@ function dataToDatasetString(data) {
         .join(" ");
 }
 exports.dataToDatasetString = dataToDatasetString;
+function createGlobalEvent(event, listener, options) {
+    let enabled = false;
+    return {
+        activate() {
+            if (enabled)
+                return;
+            document.addEventListener(event, listener, options);
+            enabled = true;
+        },
+        disable() {
+            if (!enabled)
+                return;
+            document.removeEventListener(event, listener, options);
+            enabled = false;
+        },
+        toggle(enabled) {
+            if (enabled)
+                this.activate();
+            else
+                this.disable();
+        },
+    };
+}
+exports.createGlobalEvent = createGlobalEvent;

@@ -11,19 +11,25 @@ function registerUpstreamHook(event, listener) {
     return id;
 }
 exports.registerUpstreamHook = registerUpstreamHook;
-function createHook(hook, listener) {
-    let hookId = null;
+function createHook(hooks, listener) {
+    const hookIds = [];
+    hooks = Array.isArray(hooks) ? hooks : [hooks];
     return {
         activate() {
-            if (hookId !== null)
+            if (hookIds.length)
                 return;
-            hookId = Hooks.on(hook, listener);
+            for (const hook of hooks) {
+                const id = Hooks.on(hook, listener);
+                hookIds.push({ id, hook });
+            }
         },
         disable() {
-            if (hookId === null)
+            if (!hookIds.length)
                 return;
-            Hooks.off(hook, hookId);
-            hookId = null;
+            for (const { hook, id } of hookIds) {
+                Hooks.off(hook, id);
+            }
+            hookIds.length = 0;
         },
         toggle(enabled) {
             if (enabled)

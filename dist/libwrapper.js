@@ -17,22 +17,27 @@ function unregisterWrapper(id) {
     libWrapper.unregister(_1.MODULE.id, id);
 }
 exports.unregisterWrapper = unregisterWrapper;
-function createWrapper(path, callback, type, options) {
+function createWrapper(path, callback, options = {}) {
     let wrapperId = null;
+    const wrapped = options.context
+        ? function (...args) {
+            callback.call(options.context, this, ...args);
+        }
+        : callback;
     return {
         activate() {
             if (wrapperId !== null)
                 return;
             //  @ts-ignore
-            wrapperId = registerWrapper(path, callback, type ?? "WRAPPER");
-            options?.onActivate?.();
+            wrapperId = registerWrapper(path, wrapped, options.type ?? "WRAPPER");
+            options.onActivate?.();
         },
         disable() {
             if (wrapperId === null)
                 return;
             unregisterWrapper(wrapperId);
             wrapperId = null;
-            options?.onDisable?.();
+            options.onDisable?.();
         },
         toggle(enabled) {
             if (enabled)

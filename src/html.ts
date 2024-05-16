@@ -203,6 +203,31 @@ function dataToDatasetString<TKey extends string>(data: DataToDatasetStringType<
         .join(" ");
 }
 
+function createGlobalEvent<TEvent extends keyof DocumentEventMap>(
+    event: TEvent,
+    listener: (this: Document, ev: DocumentEventMap[TEvent]) => any,
+    options?: boolean | AddEventListenerOptions
+) {
+    let enabled = false;
+
+    return {
+        activate() {
+            if (enabled) return;
+            document.addEventListener(event, listener, options);
+            enabled = true;
+        },
+        disable() {
+            if (!enabled) return;
+            document.removeEventListener(event, listener, options);
+            enabled = false;
+        },
+        toggle(enabled: boolean) {
+            if (enabled) this.activate();
+            else this.disable();
+        },
+    };
+}
+
 export type { DataToDatasetStringType };
 export {
     addListener,
@@ -211,6 +236,7 @@ export {
     appendHTMLFromString,
     beforeHTMLFromString,
     closest,
+    createGlobalEvent,
     createHTMLFromString,
     dataToDatasetString,
     elementData,

@@ -75,24 +75,34 @@ function unregisterWrapper(id: number) {
 function createWrapper(
     path: string,
     callback: libWrapper.RegisterCallback,
-    type?: libWrapper.RegisterType,
-    options?: { onDisable?: () => void; onActivate?: () => void }
+    options: {
+        context?: InstanceType<new (...args: any[]) => any>;
+        type?: libWrapper.RegisterType;
+        onDisable?: () => void;
+        onActivate?: () => void;
+    } = {}
 ) {
     let wrapperId: number | null = null;
+
+    const wrapped = options.context
+        ? function (this: any, ...args: any[]) {
+              callback.call(options.context, this, ...args);
+          }
+        : callback;
 
     return {
         activate() {
             if (wrapperId !== null) return;
             //  @ts-ignore
-            wrapperId = registerWrapper(path, callback, type ?? "WRAPPER");
-            options?.onActivate?.();
+            wrapperId = registerWrapper(path, wrapped, options.type ?? "WRAPPER");
+            options.onActivate?.();
         },
         disable() {
             if (wrapperId === null) return;
 
             unregisterWrapper(wrapperId);
             wrapperId = null;
-            options?.onDisable?.();
+            options.onDisable?.();
         },
         toggle(enabled: boolean) {
             if (enabled) this.activate();

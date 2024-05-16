@@ -22,5 +22,10 @@ declare function parentElement<E extends HTMLElement = HTMLElement>(el: Element)
 declare function elementData<T extends Record<string, string>>(el: Element): T;
 type DataToDatasetStringType<TKey extends string = string> = Partial<Record<TKey, string | number | boolean | object>>;
 declare function dataToDatasetString<TKey extends string>(data: DataToDatasetStringType<TKey>): string;
+declare function createGlobalEvent<TEvent extends keyof DocumentEventMap>(event: TEvent, listener: (this: Document, ev: DocumentEventMap[TEvent]) => any, options?: boolean | AddEventListenerOptions): {
+    activate(): void;
+    disable(): void;
+    toggle(enabled: boolean): void;
+};
 export type { DataToDatasetStringType };
-export { addListener, addListenerAll, afterHTMLFromString, appendHTMLFromString, beforeHTMLFromString, closest, createHTMLFromString, dataToDatasetString, elementData, htmlElement, isCheckboxElement, parentElement, prependHTMLFromString, querySelector, querySelectorArray, queryInClosest, queryInParent, };
+export { addListener, addListenerAll, afterHTMLFromString, appendHTMLFromString, beforeHTMLFromString, closest, createGlobalEvent, createHTMLFromString, dataToDatasetString, elementData, htmlElement, isCheckboxElement, parentElement, prependHTMLFromString, querySelector, querySelectorArray, queryInClosest, queryInParent, };
