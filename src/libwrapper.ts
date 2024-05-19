@@ -36,31 +36,24 @@ declare namespace libWrapper {
     function unregister(namespace: string, target: number): void;
 }
 
-function registerWrapper<P extends string | string[], R extends Promisable<any>>(
-    path: P,
-    fn: libWrapper.RegisterMixedCallback<R>,
-    type: "MIXED"
-): P extends string[] ? number[] : number;
-function registerWrapper<P extends string | string[], R extends Promisable<any>>(
-    path: P,
-    fn: libWrapper.RegisterOverrideCallback<R>,
-    type: "OVERRIDE"
-): P extends string[] ? number[] : number;
-function registerWrapper<P extends string | string[], R extends Promisable<any>>(
-    path: P,
-    fn: libWrapper.RegisterWrappedCallback<R>,
-    type: "WRAPPER"
-): P extends string[] ? number[] : number;
 function registerWrapper<P extends string | string[]>(
     path: P,
-    fn: libWrapper.RegisterCallback,
-    type: libWrapper.RegisterType
+    callback: libWrapper.RegisterCallback,
+    type: libWrapper.RegisterType,
+    context?: InstanceType<new (...args: any[]) => any>
 ): P extends string[] ? number[] : number {
     const ids: number[] = [];
     const paths: string[] = Array.isArray(path) ? path : [path];
 
+    const wrapped = context
+        ? function (this: any, ...args: any[]) {
+              args.unshift(this);
+              callback.apply(context, args);
+          }
+        : callback;
+
     for (const key of paths) {
-        const id = libWrapper.register(MODULE.id, key, fn, type);
+        const id = libWrapper.register(MODULE.id, key, wrapped, type);
         ids.push(id);
     }
 
@@ -84,17 +77,11 @@ function createWrapper(
 ) {
     let wrapperId: number | null = null;
 
-    const wrapped = options.context
-        ? function (this: any, ...args: any[]) {
-              callback.call(options.context, this, ...args);
-          }
-        : callback;
-
     return {
         activate() {
             if (wrapperId !== null) return;
-            //  @ts-ignore
-            wrapperId = registerWrapper(path, wrapped, options.type ?? "WRAPPER");
+            // @ts-ignore
+            wrapperId = registerWrapper(path, callback, options.type ?? "WRAPPER", options.context);
             options.onActivate?.();
         },
         disable() {

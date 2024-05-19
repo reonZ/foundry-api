@@ -36,6 +36,8 @@ declare global {
         messages: Messages;
         macros: Macros;
         keybindings: ClientKeybindings;
+
+        get activeTool(): string;
     }
 
     const game: Game;

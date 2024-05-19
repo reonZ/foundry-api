@@ -11,7 +11,9 @@ declare global {
         alpha: number;
     }
 
-    class SquareGrid extends BaseGrid {}
+    class SquareGrid extends BaseGrid {
+        type: (typeof CONST.GRID_TYPES)[keyof typeof CONST.GRID_TYPES];
+    }
 }
 
 export type {};

@@ -8,7 +8,7 @@ function isCheckboxElement(el: Element): el is HTMLInputElement {
     return el instanceof HTMLInputElement && el.type === "checkbox";
 }
 
-function createHTMLFromString<T extends Element = HTMLElement>(content: string, wrap = true) {
+function createHTMLFromString<T extends HTMLElement>(content: string, wrap = true) {
     const tmp = document.createElement("div");
     tmp.innerHTML = content;
 
@@ -30,7 +30,7 @@ function applyHtmlMethod(
     }
 }
 
-function insertHTMLFromString<T extends Element = HTMLElement>(
+function insertHTMLFromString<T extends HTMLElement>(
     parent: Element | null,
     content: string,
     prepend = false
@@ -43,24 +43,15 @@ function insertHTMLFromString<T extends Element = HTMLElement>(
     return html;
 }
 
-function appendHTMLFromString<T extends Element = HTMLElement>(
-    parent: Element | null,
-    content: string
-) {
+function appendHTMLFromString<T extends HTMLElement>(parent: Element | null, content: string) {
     return insertHTMLFromString<T>(parent, content, false);
 }
 
-function prependHTMLFromString<T extends Element = HTMLElement>(
-    parent: Element | null,
-    content: string
-) {
+function prependHTMLFromString<T extends HTMLElement>(parent: Element | null, content: string) {
     return insertHTMLFromString<T>(parent, content, true);
 }
 
-function beforeHTMLFromString<T extends Element = HTMLElement>(
-    element: Element | null,
-    content: string
-) {
+function beforeHTMLFromString<T extends HTMLElement>(element: Element | null, content: string) {
     if (!element) return;
 
     const html = createHTMLFromString<T>(content, false);
@@ -69,10 +60,7 @@ function beforeHTMLFromString<T extends Element = HTMLElement>(
     return html;
 }
 
-function afterHTMLFromString<T extends Element = HTMLElement>(
-    element: Element | null,
-    content: string
-) {
+function afterHTMLFromString<T extends HTMLElement>(element: Element | null, content: string) {
     if (!element) return;
 
     const html = createHTMLFromString<T>(content, false);

@@ -3,11 +3,11 @@
 type EventType = keyof HTMLElementEventMap;
 declare function htmlElement(el: HTMLElement | JQuery): HTMLElement;
 declare function isCheckboxElement(el: Element): el is HTMLInputElement;
-declare function createHTMLFromString<T extends Element = HTMLElement>(content: string, wrap?: boolean): T;
-declare function appendHTMLFromString<T extends Element = HTMLElement>(parent: Element | null, content: string): T | undefined;
-declare function prependHTMLFromString<T extends Element = HTMLElement>(parent: Element | null, content: string): T | undefined;
-declare function beforeHTMLFromString<T extends Element = HTMLElement>(element: Element | null, content: string): T | undefined;
-declare function afterHTMLFromString<T extends Element = HTMLElement>(element: Element | null, content: string): T | undefined;
+declare function createHTMLFromString<T extends HTMLElement>(content: string, wrap?: boolean): T;
+declare function appendHTMLFromString<T extends HTMLElement>(parent: Element | null, content: string): T | undefined;
+declare function prependHTMLFromString<T extends HTMLElement>(parent: Element | null, content: string): T | undefined;
+declare function beforeHTMLFromString<T extends HTMLElement>(element: Element | null, content: string): T | undefined;
+declare function afterHTMLFromString<T extends HTMLElement>(element: Element | null, content: string): T | undefined;
 type ListenerCallback<TElement extends HTMLElement, TEvent extends EventType> = (event: HTMLElementEventMap[TEvent], element: TElement) => void;
 declare function addListener<TElement extends HTMLElement, TEvent extends EventType = "click">(parent: Element, selector: string, event: TEvent, listener: ListenerCallback<TElement, TEvent>, useCapture?: boolean): TElement | undefined;
 declare function addListener<TElement extends HTMLElement, TEvent extends EventType = "click">(parent: Element, selector: string, listener: ListenerCallback<TElement, TEvent>, useCapture?: boolean): TElement | undefined;

@@ -24,6 +24,7 @@ export * from "./keybindings";
 export * from "./localization";
 export * from "./macro";
 export * from "./module";
+export * from "./mouse";
 export * from "./notifications";
 export * from "./perception";
 export * from "./pixi";

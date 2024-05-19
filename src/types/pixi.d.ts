@@ -96,6 +96,14 @@ declare global {
     type Point = { x: number; y: number };
 
     namespace PIXI {
+        interface FederatedEvent<N extends UIEvent = UIEvent> extends UIEvent {}
+
+        interface FederatedMouseEvent
+            extends FederatedEvent<MouseEvent | PointerEvent | TouchEvent>,
+                MouseEvent {}
+
+        interface FederatedPointerEvent extends FederatedMouseEvent, PointerEvent {}
+
         class Circle {}
 
         class Polygon {

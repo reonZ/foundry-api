@@ -2,11 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.unregisterWrapper = exports.registerWrapper = exports.createWrapper = void 0;
 const _1 = require(".");
-function registerWrapper(path, fn, type) {
+function registerWrapper(path, callback, type, context) {
     const ids = [];
     const paths = Array.isArray(path) ? path : [path];
+    const wrapped = context
+        ? function (...args) {
+            args.unshift(this);
+            callback.apply(context, args);
+        }
+        : callback;
     for (const key of paths) {
-        const id = libWrapper.register(_1.MODULE.id, key, fn, type);
+        const id = libWrapper.register(_1.MODULE.id, key, wrapped, type);
         ids.push(id);
     }
     // @ts-ignore
@@ -19,17 +25,12 @@ function unregisterWrapper(id) {
 exports.unregisterWrapper = unregisterWrapper;
 function createWrapper(path, callback, options = {}) {
     let wrapperId = null;
-    const wrapped = options.context
-        ? function (...args) {
-            callback.call(options.context, this, ...args);
-        }
-        : callback;
     return {
         activate() {
             if (wrapperId !== null)
                 return;
-            //  @ts-ignore
-            wrapperId = registerWrapper(path, wrapped, options.type ?? "WRAPPER");
+            // @ts-ignore
+            wrapperId = registerWrapper(path, callback, options.type ?? "WRAPPER", options.context);
             options.onActivate?.();
         },
         disable() {
