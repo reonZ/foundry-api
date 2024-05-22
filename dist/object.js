@@ -5,7 +5,7 @@ const module_1 = require("./module");
 const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
 exports.AsyncFunction = AsyncFunction;
 function isInstanceOf(obj, name) {
-    if (typeof obj !== "object")
+    if (typeof obj !== "object" || obj === null)
         return false;
     let cursor = Reflect.getPrototypeOf(obj);
     while (cursor) {

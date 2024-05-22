@@ -14,11 +14,13 @@ declare function subLocalize(subKey: string): typeof localize & {
     warn: typeof warn;
     info: typeof info;
     error: typeof error;
-    i18n: typeof templateLocalize & {
-        path: typeof localizePath;
-        sub: typeof subLocalize;
-    };
+    i18n: SublocalizeI18n;
     sub: typeof subLocalize;
 };
 declare function localeCompare(a: string, b: string): number;
+type SublocalizeI18n = typeof templateLocalize & {
+    path: typeof localizePath;
+    sub: typeof subLocalize;
+};
+export type { SublocalizeI18n };
 export { localeCompare, localize, localizeIfExist, hasLocalization, localizePath, templateLocalize, subLocalize, };

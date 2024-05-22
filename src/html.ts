@@ -170,6 +170,17 @@ function closest<E extends Element = HTMLElement>(el: Element | null, selector: 
     return el.closest<E>(selector);
 }
 
+function replaceChild(parent: Element | null, selector: string, el: Element | null) {
+    console.log(parent, el);
+    if (!parent || !el) return;
+
+    const child = parent.querySelector(selector);
+    console.log(child);
+    if (child) {
+        child.replaceWith(el);
+    }
+}
+
 function parentElement<E extends HTMLElement = HTMLElement>(el: Element) {
     return el.parentElement as E | null;
 }
@@ -236,4 +247,5 @@ export {
     querySelectorArray,
     queryInClosest,
     queryInParent,
+    replaceChild,
 };

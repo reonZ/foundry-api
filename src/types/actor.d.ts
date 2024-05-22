@@ -15,6 +15,7 @@ declare global {
         pack: string | null;
         prototypeToken: PrototypeToken;
         apps: Record<number | string, Application | ApplicationV2>;
+        img: string;
 
         get name(): string;
         get itemTypes(): Record<string, Item[]>;

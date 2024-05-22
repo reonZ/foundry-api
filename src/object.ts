@@ -5,7 +5,7 @@ const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor as
 };
 
 function isInstanceOf<T>(obj: any, name: string): obj is T {
-    if (typeof obj !== "object") return false;
+    if (typeof obj !== "object" || obj === null) return false;
 
     let cursor = Reflect.getPrototypeOf(obj);
     while (cursor) {

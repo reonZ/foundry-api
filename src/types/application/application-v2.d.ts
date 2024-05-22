@@ -84,11 +84,11 @@ declare global {
         visible: boolean;
     }
 
-    interface ApplicationRenderOptions {
+    interface ApplicationRenderOptions<TParts extends string = string> {
         force?: boolean;
         position?: ApplicationPosition;
         window?: ApplicationWindowRenderOptions;
-        parts?: string[];
+        parts?: TParts[];
         isFirstRender?: boolean;
     }
 
@@ -145,7 +145,7 @@ declare global {
             get classList(): DOMTokenList;
             get id(): string;
             get title(): string;
-            get element(): HTMLElement;
+            get element(): HTMLElement | null;
             get minimized(): boolean;
             get rendered(): boolean;
             get state(): number;
@@ -166,7 +166,7 @@ declare global {
             _renderFrame(options: TRenderOptions): Promise<HTMLElement>;
             _renderHeaderControl(control: ApplicationHeaderControlsEntry): HTMLLIElement;
             _updateFrame(options: TRenderOptions): void;
-            _insertElement(element: HTMLElement): HTMLElement;
+            _insertElement(element: HTMLElement): void;
             _removeElement(element: HTMLElement): void;
             _updatePosition(position: ApplicationPosition): ApplicationPosition;
             _canRender(options: TRenderOptions): false | void;
@@ -212,6 +212,42 @@ declare global {
             ): void;
             parseCSSDimension(style: string, parentDimension: number): number;
         }
+
+        function HandlebarsApplicationMixin<
+            TApplication extends
+                | ConstructorOf<foundry.applications.api.ApplicationV2>
+                | AbstractConstructorOf<foundry.applications.api.ApplicationV2>,
+            TConfig extends ApplicationConfiguration = ApplicationConfiguration,
+            TRenderOptions extends ApplicationRenderOptions = ApplicationRenderOptions,
+            TContext extends ApplicationRenderContext = ApplicationRenderContext
+        >(
+            Application: TApplication
+        ): TApplication & ConstructorOf<HandlebarsApplication<TConfig, TRenderOptions, TContext>>;
+
+        class HandlebarsApplication<
+            TConfig extends ApplicationConfiguration = ApplicationConfiguration,
+            TRenderOptions extends ApplicationRenderOptions = ApplicationRenderOptions,
+            TContext extends ApplicationRenderContext = ApplicationRenderContext
+        > {
+            static PARTS: Record<string, HandlebarsTemplatePart>;
+
+            get parts(): Record<string, HTMLElement>;
+
+            _preparePartContext(
+                partId: string,
+                context: TContext,
+                options: TRenderOptions
+            ): Promise<ApplicationRenderContext>;
+        }
+    }
+
+    interface HandlebarsTemplatePart {
+        template: string;
+        id?: string;
+        classes?: string[];
+        templates?: string[];
+        scrollable?: string[];
+        forms?: Record<string, ApplicationFormConfiguration>;
     }
 
     namespace foundry.applications {

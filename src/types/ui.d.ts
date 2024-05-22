@@ -3,6 +3,8 @@ declare global {
         const notifications: Notifications;
         const windows: Record<string, Application>;
         const chat: ChatLog;
+        const hotbar: Hotbar;
+        const macros: MacroDirectory;
     }
 }
 

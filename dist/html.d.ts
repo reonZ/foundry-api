@@ -18,6 +18,7 @@ declare function querySelectorArray<E extends Element = HTMLElement>(parent: Ele
 declare function queryInClosest<E extends Element = HTMLElement>(el: Element, parentSelector: string, childSelector: string): E | null;
 declare function queryInParent<E extends Element = HTMLElement>(el: Element, childSelector: string): E | null;
 declare function closest<E extends Element = HTMLElement>(el: Element | null, selector: string): E | null;
+declare function replaceChild(parent: Element | null, selector: string, el: Element | null): void;
 declare function parentElement<E extends HTMLElement = HTMLElement>(el: Element): E | null;
 declare function elementData<T extends Record<string, string>>(el: Element): T;
 type DataToDatasetStringType<TKey extends string = string> = Partial<Record<TKey, string | number | boolean | object>>;
@@ -28,4 +29,4 @@ declare function createGlobalEvent<TEvent extends keyof DocumentEventMap>(event:
     toggle(enabled: boolean): void;
 };
 export type { DataToDatasetStringType };
-export { addListener, addListenerAll, afterHTMLFromString, appendHTMLFromString, beforeHTMLFromString, closest, createGlobalEvent, createHTMLFromString, dataToDatasetString, elementData, htmlElement, isCheckboxElement, parentElement, prependHTMLFromString, querySelector, querySelectorArray, queryInClosest, queryInParent, };
+export { addListener, addListenerAll, afterHTMLFromString, appendHTMLFromString, beforeHTMLFromString, closest, createGlobalEvent, createHTMLFromString, dataToDatasetString, elementData, htmlElement, isCheckboxElement, parentElement, prependHTMLFromString, querySelector, querySelectorArray, queryInClosest, queryInParent, replaceChild, };

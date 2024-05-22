@@ -23,6 +23,16 @@ declare global {
         bind(object: TObject): void;
         clear(): void;
     }
+
+    class Hotbar extends Application {
+        get locked(): boolean;
+
+        _toggleHotbarLock(): Promise<void>;
+    }
+
+    class DocumentDirectory extends SidebarTab {}
+
+    class MacroDirectory extends DocumentDirectory {}
 }
 
 export type {};

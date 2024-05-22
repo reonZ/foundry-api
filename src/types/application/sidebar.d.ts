@@ -8,7 +8,9 @@ declare global {
         callback: ($html: JQuery) => void;
     }
 
-    class SidebarTab extends Application {}
+    class SidebarTab extends Application {
+        renderPopout(forced?: boolean): void;
+    }
 }
 
 export type {};

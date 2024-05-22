@@ -1,4 +1,4 @@
-import { MODULE, error, info, joinStr, warn } from ".";
+import { MODULE, error, info, joinStr, templatePath, warn } from ".";
 
 declare type LocalizeArgs = [...string[], string | Record<string, any>];
 
@@ -119,7 +119,7 @@ function subLocalize(subKey: string) {
         warn: typeof warn;
         info: typeof info;
         error: typeof error;
-        i18n: typeof templateLocalize & { path: typeof localizePath; sub: typeof subLocalize };
+        i18n: SublocalizeI18n;
         sub: typeof subLocalize;
     };
 }
@@ -127,6 +127,13 @@ function subLocalize(subKey: string) {
 function localeCompare(a: string, b: string) {
     return a.localeCompare(b, game.i18n.lang);
 }
+
+type SublocalizeI18n = typeof templateLocalize & {
+    path: typeof localizePath;
+    sub: typeof subLocalize;
+};
+
+export type { SublocalizeI18n };
 
 export {
     localeCompare,
