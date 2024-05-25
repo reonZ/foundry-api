@@ -31,4 +31,8 @@ function getOnly<T>(collection: T[] | Set<T> | undefined, condition?: (value: T)
     return ((!condition || condition(value)) && value) || undefined;
 }
 
-export { arrayIncludesOne, compareArrays, getOnly };
+function setHasAny<T>(set: Set<T>, values: T[]) {
+    return values.some((value) => set.has(value));
+}
+
+export { arrayIncludesOne, compareArrays, getOnly, setHasAny };

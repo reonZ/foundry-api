@@ -15,6 +15,19 @@ declare global {
         height: number;
         hidden: boolean;
         disposition: TokenDisposition;
+        texture: {
+            src: string;
+            anchorX: number;
+            anchorY: number;
+            offsetX: number;
+            offsetY: number;
+            fit: string;
+            scaleX: number;
+            scaleY: number;
+            rotation: number;
+            tint: string;
+            alphaThreshold: number;
+        };
 
         get id(): string;
         get sort(): number;
@@ -37,6 +50,10 @@ declare global {
         get bounds(): PIXI.Rectangle;
 
         _refreshVisibility(): void;
+    }
+
+    interface Token {
+        get combatant(): Combatant | null;
     }
 
     class PrototypeToken extends FoundryDocument {

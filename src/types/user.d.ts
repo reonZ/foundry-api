@@ -8,6 +8,15 @@ declare global {
         targets?: string[];
     }
 
+    type UserRole = keyof typeof CONST.USER_ROLE_NAMES;
+
+    interface UserPermission {
+        label: string;
+        hint: string;
+        disableGM: boolean;
+        defaultRole: UserRole;
+    }
+
     interface UserSourceData extends DocumentSourceData {}
 
     class User extends FoundryDocument {
@@ -21,6 +30,7 @@ declare global {
 
         updateTokenTargets(targetIds?: string[]): void;
         broadcastActivity(activityData?: UserActivity): void;
+        hasPermission(permission: string): boolean;
     }
 }
 

@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOnly = exports.compareArrays = exports.arrayIncludesOne = void 0;
+exports.setHasAny = exports.getOnly = exports.compareArrays = exports.arrayIncludesOne = void 0;
 const R = __importStar(require("remeda"));
 function arrayIncludesOne(array, other) {
     return other.some((value) => array.includes(value));
@@ -55,3 +55,7 @@ function getOnly(collection, condition) {
     return ((!condition || condition(value)) && value) || undefined;
 }
 exports.getOnly = getOnly;
+function setHasAny(set, values) {
+    return values.some((value) => set.has(value));
+}
+exports.setHasAny = setHasAny;

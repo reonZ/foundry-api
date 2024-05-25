@@ -30,6 +30,7 @@ __exportStar(require("./hooks"), exports);
 __exportStar(require("./html"), exports);
 __exportStar(require("./item"), exports);
 __exportStar(require("./keybindings"), exports);
+__exportStar(require("./keyboard"), exports);
 __exportStar(require("./libwrapper"), exports);
 __exportStar(require("./localize"), exports);
 __exportStar(require("./math"), exports);

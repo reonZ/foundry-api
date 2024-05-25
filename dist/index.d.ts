@@ -13,6 +13,7 @@ export * from "./hooks";
 export * from "./html";
 export * from "./item";
 export * from "./keybindings";
+export * from "./keyboard";
 export * from "./libwrapper";
 export * from "./localize";
 export * from "./math";

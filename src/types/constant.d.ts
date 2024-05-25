@@ -56,6 +56,13 @@ declare global {
             NORMAL: 1;
             DEFERRED: 2;
         };
+        USER_ROLE_NAMES: {
+            0: "NONE";
+            1: "PLAYER";
+            2: "TRUSTED";
+            3: "ASSISTANT";
+            4: "GAMEMASTER";
+        };
     }
 
     const CONST: GlobalConst;

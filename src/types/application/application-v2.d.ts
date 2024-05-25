@@ -104,7 +104,7 @@ declare global {
     > = foundry.applications.api.ApplicationV2<TConfig, TRenderOptions>;
 
     namespace foundry.applications.api {
-        class ApplicationV2<
+        abstract class ApplicationV2<
             TConfig extends ApplicationConfiguration = ApplicationConfiguration,
             TRenderOptions extends ApplicationRenderOptions = ApplicationRenderOptions
         > {
@@ -151,18 +151,19 @@ declare global {
             get state(): number;
             get hasFrame(): boolean;
 
-            _configureRenderOptions(options: TRenderOptions): void;
-            _prepareContext(options: TRenderOptions): Promise<unknown>;
-            _getHeaderControls(): ApplicationHeaderControlsEntry[];
-            _renderHTML(
+            abstract _renderHTML(
                 context: Awaited<ReturnType<this["_prepareContext"]>>,
                 options: TRenderOptions
             ): Promise<unknown>;
-            _replaceHTML(
+            abstract _replaceHTML(
                 result: Awaited<ReturnType<this["_renderHTML"]>>,
                 content: HTMLElement,
                 options: TRenderOptions
             ): void;
+
+            _configureRenderOptions(options: TRenderOptions): void;
+            _prepareContext(options: TRenderOptions): Promise<unknown>;
+            _getHeaderControls(): ApplicationHeaderControlsEntry[];
             _renderFrame(options: TRenderOptions): Promise<HTMLElement>;
             _renderHeaderControl(control: ApplicationHeaderControlsEntry): HTMLLIElement;
             _updateFrame(options: TRenderOptions): void;

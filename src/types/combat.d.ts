@@ -27,22 +27,56 @@ declare global {
         );
 
         sceneId: string;
-        initiative: number;
+        initiative: number | null;
+        tokenId: string;
+        hidden: boolean;
 
         get actor(): Actor | null;
         get token(): TokenDocument;
+        get isDefeated(): boolean;
+        get visible(): boolean;
     }
 
-    class Combat extends FoundryDocument {
+    class Combat<TCombatant extends Combatant = Combatant> extends FoundryDocument {
         round: number;
         turn: null | number;
+        turns: TCombatant[];
 
-        get combatant(): Combatant | undefined;
+        get combatant(): TCombatant | undefined;
+        get combatants(): EmbeddedCollection<TCombatant>;
+        get started(): boolean;
+        get isActive(): boolean;
+
+        update(
+            data: object,
+            context?: DocumentModificationContext<this> & { direction: 1 | -1 }
+        ): Promise<this | undefined>;
+        rollInitiative(
+            ids: string | string[],
+            options?: { formula?: string | null; updateTurn?: boolean; messageOptions?: object }
+        ): Promise<this>;
     }
 
-    interface Combat {
-        readonly combatants: EmbeddedCollection<Combatant>;
+    interface Combat {}
+
+    class CombatTracker<TCombat extends Combat | null = Combat | null> extends SidebarTab {
+        viewed: TCombat | null;
+
+        get combats(): NonNullable<TCombat>[];
+
+        _onCombatControl(event: Event): void;
+        _onCombatantControl(event: Event): void;
+        _onCombatantHoverIn(event: Event): void;
+        _onCombatantHoverOut(event: Event): void;
+        _onCombatantMouseDown(event: Event): void;
+        _getCombatantThumbnail(combatant: Combatant): Promise<string>;
+        _onConfigureCombatant(li: JQuery): void;
+
+        scrollToTurn(): void;
+        hoverCombatant(combatant: Combatant, hover: boolean): void;
     }
+
+    class CombatTrackerConfig extends FormApplication {}
 }
 
 export type {};

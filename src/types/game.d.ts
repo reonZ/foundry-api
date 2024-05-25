@@ -36,6 +36,7 @@ declare global {
         messages: Messages;
         macros: Macros;
         keybindings: ClientKeybindings;
+        keyboard: KeyboardManager;
 
         get activeTool(): string;
     }

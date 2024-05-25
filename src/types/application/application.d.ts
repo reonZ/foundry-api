@@ -65,8 +65,8 @@ declare global {
     interface RenderOptions extends Partial<ApplicationOptions> {
         left?: number;
         top?: number;
-        width?: number;
-        height?: number;
+        width?: number | "auto";
+        height?: number | "auto";
         scale?: number;
         focus?: boolean;
         renderContext?: string;

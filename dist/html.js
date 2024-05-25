@@ -105,11 +105,9 @@ function closest(el, selector) {
 }
 exports.closest = closest;
 function replaceChild(parent, selector, el) {
-    console.log(parent, el);
     if (!parent || !el)
         return;
     const child = parent.querySelector(selector);
-    console.log(child);
     if (child) {
         child.replaceWith(el);
     }

@@ -1,5 +1,10 @@
 declare global {
-    class Color extends Number {}
+    class Color extends Number {
+        get css(): string;
+        get rgb(): [number, number, number];
+
+        toRGBA(alpha: number): string;
+    }
 
     namespace foundry {
         namespace utils {

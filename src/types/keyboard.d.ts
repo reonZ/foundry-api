@@ -26,6 +26,8 @@ declare global {
 
         downKeys: Set<string>;
         moveKeys: Set<string>;
+
+        isModifierActive(key: ModifierKey): boolean;
     }
 }
 

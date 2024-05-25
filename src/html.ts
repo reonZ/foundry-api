@@ -171,11 +171,9 @@ function closest<E extends Element = HTMLElement>(el: Element | null, selector: 
 }
 
 function replaceChild(parent: Element | null, selector: string, el: Element | null) {
-    console.log(parent, el);
     if (!parent || !el) return;
 
     const child = parent.querySelector(selector);
-    console.log(child);
     if (child) {
         child.replaceWith(el);
     }

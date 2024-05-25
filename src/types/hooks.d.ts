@@ -19,7 +19,7 @@ declare global {
         function on(event: string, listener: HookCallback): number;
         function off(event: string, listener: HookCallback | number): void;
 
-        function callAll(event: string, ...args: [...any, string]): void;
+        function callAll(event: string, ...args: any[]): void;
     }
 }
 

@@ -9,6 +9,8 @@ declare global {
     }
 
     class SidebarTab extends Application {
+        _getEntryContextOptions(): EntryContextOption[];
+
         renderPopout(forced?: boolean): void;
     }
 }
