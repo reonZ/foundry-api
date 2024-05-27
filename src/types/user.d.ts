@@ -21,8 +21,8 @@ declare global {
 
     class User extends FoundryDocument {
         active: boolean;
-        targets: Set<Token>;
-        color: string;
+        targets: Set<Token> & { get ids(): string[] };
+        color: Color;
 
         get character(): Actor | null;
         get isGM(): boolean;

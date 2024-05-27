@@ -6,6 +6,7 @@ declare global {
     }
 
     class Game {
+        userId: string;
         settings: ClientSettings;
         i18n: Localization;
         user: User;

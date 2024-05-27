@@ -47,7 +47,7 @@ declare global {
         static wait<R = unknown>(
             data?: DialogData<R>,
             options?: ApplicationOptions,
-            renderOptions?: ApplicationRenderOptions
+            renderOptions?: ApplicationPositionOptions
         ): Promise<R>;
 
         _updateObject(event: SubmitEvent, formData: Record<string, unknown>): Promise<void>;

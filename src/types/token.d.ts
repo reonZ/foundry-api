@@ -15,6 +15,7 @@ declare global {
         height: number;
         hidden: boolean;
         disposition: TokenDisposition;
+        targeted: Set<User>;
         texture: {
             src: string;
             anchorX: number;

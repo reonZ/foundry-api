@@ -65,7 +65,7 @@ declare global {
         get combats(): NonNullable<TCombat>[];
 
         _onCombatControl(event: Event): void;
-        _onCombatantControl(event: Event): void;
+        _onCombatantControl(event: Event | JQuery.Event): void;
         _onCombatantHoverIn(event: Event): void;
         _onCombatantHoverOut(event: Event): void;
         _onCombatantMouseDown(event: Event): void;
