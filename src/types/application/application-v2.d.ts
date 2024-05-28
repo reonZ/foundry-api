@@ -103,11 +103,23 @@ declare global {
         TRenderOptions extends ApplicationRenderOptions = ApplicationRenderOptions
     > = foundry.applications.api.ApplicationV2<TConfig, TRenderOptions>;
 
+    type EmittedEventListener = (event: Event) => void;
+
+    class EventEmitter {
+        addEventListener(
+            type: string,
+            listener: EmittedEventListener,
+            options?: { once?: boolean }
+        ): void;
+        removeEventListener(type: string, listener: EmittedEventListener): void;
+        dispatchEvent(event: string): boolean;
+    }
+
     namespace foundry.applications.api {
         abstract class ApplicationV2<
             TConfig extends ApplicationConfiguration = ApplicationConfiguration,
             TRenderOptions extends ApplicationRenderOptions = ApplicationRenderOptions
-        > {
+        > extends EventEmitter {
             constructor(options?: Partial<TConfig>);
 
             static BASE_APPLICATION: ApplicationV2;
@@ -160,7 +172,6 @@ declare global {
                 content: HTMLElement,
                 options: TRenderOptions
             ): void;
-
             _configureRenderOptions(options: TRenderOptions): void;
             _prepareContext(options: TRenderOptions): Promise<unknown>;
             _getHeaderControls(): ApplicationHeaderControlsEntry[];
@@ -175,7 +186,10 @@ declare global {
                 context: ApplicationRenderContext,
                 options: TRenderOptions
             ): Promise<void>;
-            _onFirstRender(context: ApplicationRenderContext, options: TRenderOptions): void;
+            _onFirstRender(
+                context: Awaited<ReturnType<this["_prepareContext"]>>,
+                options: TRenderOptions
+            ): void;
             _preRender(context: ApplicationRenderContext, options: TRenderOptions): Promise<void>;
             _onRender(context: ApplicationRenderContext, options: TRenderOptions): void;
             _preClose(options: TRenderOptions): Promise<void>;
