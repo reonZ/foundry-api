@@ -58,7 +58,7 @@ function templateLocalize(subKey: string) {
         },
     });
 
-    return fn;
+    return fn as SublocalizeI18n;
 }
 
 function subLocalize(subKey: string) {
@@ -128,7 +128,7 @@ function localeCompare(a: string, b: string) {
     return a.localeCompare(b, game.i18n.lang);
 }
 
-type SublocalizeI18n = typeof templateLocalize & {
+type SublocalizeI18n = ((key: string, { hash }: { hash: Record<string, string> }) => string) & {
     path: typeof localizePath;
     sub: typeof subLocalize;
 };

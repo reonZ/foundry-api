@@ -4,9 +4,7 @@ declare function localize(...args: LocalizeArgs): string;
 declare function localizeIfExist(...args: LocalizeArgs): string | undefined;
 declare function hasLocalization(...path: string[]): boolean;
 declare function localizePath(...path: string[]): `${string}.${string}`;
-declare function templateLocalize(subKey: string): (key: string, { hash }: {
-    hash: Record<string, string>;
-}) => string;
+declare function templateLocalize(subKey: string): SublocalizeI18n;
 declare function subLocalize(subKey: string): typeof localize & {
     ifExist: typeof localizeIfExist;
     has: typeof hasLocalization;
@@ -18,7 +16,9 @@ declare function subLocalize(subKey: string): typeof localize & {
     sub: typeof subLocalize;
 };
 declare function localeCompare(a: string, b: string): number;
-type SublocalizeI18n = typeof templateLocalize & {
+type SublocalizeI18n = ((key: string, { hash }: {
+    hash: Record<string, string>;
+}) => string) & {
     path: typeof localizePath;
     sub: typeof subLocalize;
 };

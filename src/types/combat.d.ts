@@ -46,6 +46,7 @@ declare global {
         get combatants(): EmbeddedCollection<TCombatant>;
         get started(): boolean;
         get isActive(): boolean;
+        get scene(): Scene | null;
 
         update(
             data: object,
