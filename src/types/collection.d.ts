@@ -1,15 +1,22 @@
 declare global {
+    class Collection<V> {}
+
     interface Collection<V>
         extends Omit<Map<string, V>, "forEach" | "delete" | "set" | SymbolConstructor["iterator"]> {
         [Symbol.iterator](): IterableIterator<V>;
+
+        get contents(): V[];
+
+        get<T extends V = V>(key: Maybe<string>, { strict }: { strict: true }): T;
+        get<T extends V = V>(key: string, { strict }?: { strict?: boolean }): T | undefined;
+
         set(key: string, value: V): this;
         delete(key: string): boolean;
-        get contents(): V[];
         find<T extends V = V>(condition: (value: V) => boolean): T | undefined;
         filter<T extends V = V>(condition: (value: V) => value is T): T[];
         filter<T extends V = V>(condition: (value: V) => boolean): T[];
         forEach(fn: (value: V) => void): void;
-        get<T extends V = V>(key: Maybe<string>, { strict }?: { strict?: boolean }): T | undefined;
+
         getName(name: string, { strict }?: { strict?: boolean }): V | undefined;
         map<T>(transformer: (value: V, index: number, collection: this) => T): T[];
         reduce<T>(evaluator: (accumlator: T, value: V) => T, initial: T): T;
@@ -33,8 +40,6 @@ declare global {
         uuid: string;
         [key: string]: any;
     }
-
-    class Collection<V> {}
 
     interface CompendiumCollection<T extends FoundryDocument = FoundryDocument>
         extends Collection<T> {
