@@ -7,8 +7,8 @@ declare global {
 
         get contents(): V[];
 
-        get<T extends V = V>(key: Maybe<string>, { strict }: { strict: true }): T;
-        get<T extends V = V>(key: string, { strict }?: { strict?: boolean }): T | undefined;
+        get(key: Maybe<string>, options: { strict: true }): V;
+        get(key: string, options?: { strict?: boolean }): V | undefined;
 
         set(key: string, value: V): this;
         delete(key: string): boolean;

@@ -1,5 +1,7 @@
 declare global {
-    interface DocumentModificationContext<TParent extends FoundryDocument = FoundryDocument> {
+    interface DocumentModificationContext<
+        TParent extends FoundryDocument | null = FoundryDocument
+    > {
         parent?: TParent;
         pack?: string;
         noHook?: boolean;
@@ -45,6 +47,11 @@ declare global {
         _stats: {
             compendiumSource: string | null;
         };
+
+        static create<TDocument extends FoundryDocument>(
+            data: PreCreate<TDocument["_source"]>,
+            context?: DocumentModificationContext<TDocument["parent"]>
+        ): Promise<FoundryDocument>;
 
         static fromSource(
             source: object,

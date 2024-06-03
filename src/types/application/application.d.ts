@@ -75,7 +75,7 @@ declare global {
         editable?: boolean;
     }
 
-    class Application {
+    class Application<TOptions extends ApplicationOptions = ApplicationOptions> {
         constructor(options?: ApplicationOptions);
 
         appId: number;
@@ -109,7 +109,7 @@ declare global {
         _getHeaderButtons(): ApplicationHeaderButton[];
 
         activateTab(tabName: string, options?: { group?: string; triggerCallback?: boolean }): void;
-        getData(options?: object): Promisable<Record<string, unknown>>;
+        getData(options?: Partial<ApplicationOptions>): object | Promise<object>;
         render(force?: boolean, options?: RenderOptions): this;
         close(options?: { force?: boolean }): Promisable<void>;
         activateListeners(html: JQuery): Promisable<void>;

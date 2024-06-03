@@ -35,6 +35,7 @@ export * from "./texteditor";
 export * from "./token";
 export * from "./tables";
 export * from "./template";
+export * from "./tooltip";
 export * from "./types";
 export * from "./ui";
 export * from "./user";

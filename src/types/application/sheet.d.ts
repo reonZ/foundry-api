@@ -10,11 +10,16 @@ declare global {
     }
 
     class DocumentSheet<
-        TObject extends FoundryDocument = FoundryDocument
-    > extends FormApplication<TObject> {
+        TDocument extends foundry.abstract.Document = foundry.abstract.Document,
+        TOptions extends DocumentSheetOptions = DocumentSheetOptions
+    > extends FormApplication<TDocument, TOptions> {
         get isEditable(): boolean;
 
         _updateObject(event: SubmitEvent, formData: Record<string, unknown>): Promise<void>;
+
+        override getData(
+            options?: Partial<TOptions>
+        ): DocumentSheetData<TDocument> | Promise<DocumentSheetData<TDocument>>;
     }
 
     class ActorSheet<TActor extends Actor = Actor> extends DocumentSheet<TActor> {

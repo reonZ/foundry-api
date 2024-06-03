@@ -1,5 +1,5 @@
 declare global {
-    class SettingsConfig extends FormApplication<null, Record<string, string>> {
+    class SettingsConfig extends FormApplication {
         _updateObject(event: SubmitEvent, formData: Record<string, string>): Promise<void>;
         static reloadConfirm(options?: { world?: boolean }): Promise<void>;
 

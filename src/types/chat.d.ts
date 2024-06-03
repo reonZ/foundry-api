@@ -22,7 +22,7 @@ declare global {
         (typeof CONST.CHAT_MESSAGE_STYLES)[keyof typeof CONST.CHAT_MESSAGE_STYLES];
 
     interface ChatMessageSourceData extends DocumentSourceData {
-        user: string;
+        author: string;
         timestamp: number;
         flavor: string;
         content: string;
@@ -60,17 +60,6 @@ declare global {
         get isRoll(): boolean;
 
         static getSpeaker(options?: ChatMessageSpeakerOptions): ChatMessageSpeaker;
-        static create(
-            data:
-                | ChatMessageCreateData
-                | PreCreate<ChatMessageSourceData>
-                | Partial<ChatMessageSourceData>,
-            context?: MessageConstructionContext
-        ): Promise<ChatMessage>;
-        static createDocuments(
-            data: (ChatMessageCreateData | PreCreate<ChatMessageSourceData>)[],
-            context?: MessageConstructionContext
-        ): Promise<ChatMessage[]>;
 
         getHTML(): Promise<JQuery>;
         toObject(): ChatMessageSourceData;
@@ -78,6 +67,32 @@ declare global {
             changes: D,
             options?: { fallback?: boolean; dryRun?: boolean }
         ): Partial<{ [K in keyof D]: D[K] }>;
+    }
+
+    interface ChatMessageModificationContext extends DocumentModificationContext<null> {
+        rollMode?: RollMode | "roll";
+    }
+
+    namespace ChatMessage {
+        function create<TDocument extends ChatMessage>(
+            this: ConstructorOf<TDocument>,
+            data: DeepPartial<
+                Omit<TDocument["_source"], "rolls"> & { rolls: (string | RollJSON)[] }
+            >[],
+            context?: ChatMessageModificationContext
+        ): Promise<TDocument[]>;
+        function create<T extends ChatMessage>(
+            this: ConstructorOf<T>,
+            data: DeepPartial<Omit<T["_source"], "rolls"> & { rolls: (string | RollJSON)[] }>,
+            context?: ChatMessageModificationContext
+        ): Promise<T | undefined>;
+        function create<T extends ChatMessage>(
+            this: ConstructorOf<T>,
+            data:
+                | DeepPartial<Omit<T["_source"], "rolls"> & { rolls: (string | RollJSON)[] }>[]
+                | DeepPartial<Omit<T["_source"], "rolls"> & { rolls: (string | RollJSON)[] }>,
+            context?: ChatMessageModificationContext
+        ): Promise<T[] | T | undefined>;
     }
 
     interface ChatMessage {

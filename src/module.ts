@@ -49,8 +49,8 @@ const MODULE = {
 };
 
 function getActiveModule<T extends Module>(name: string) {
-    const module = game.modules.get<T>(name);
-    return module?.active ? module : undefined;
+    const module = game.modules.get(name);
+    return module?.active ? (module as T) : undefined;
 }
 
 export { MODULE, getActiveModule };

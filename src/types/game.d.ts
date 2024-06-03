@@ -38,6 +38,7 @@ declare global {
         macros: Macros;
         keybindings: ClientKeybindings;
         keyboard: KeyboardManager;
+        tooltip: TooltipManager;
 
         get activeTool(): string;
     }

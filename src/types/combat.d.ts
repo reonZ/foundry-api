@@ -77,7 +77,9 @@ declare global {
         hoverCombatant(combatant: Combatant, hover: boolean): void;
     }
 
-    class CombatTrackerConfig extends FormApplication {}
+    class CombatTrackerConfig extends FormApplication {
+        _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown>;
+    }
 }
 
 export type {};

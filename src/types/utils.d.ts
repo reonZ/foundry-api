@@ -57,6 +57,8 @@ declare global {
     const loadTemplates: typeof foundry.utils.loadTemplates;
     const fromUuid: typeof foundry.utils.fromUuid;
     const fromUuidSync: typeof foundry.utils.fromUuidSync;
+
+    function getDocumentClass(name: string): typeof FoundryDocument;
 }
 
 export type {};

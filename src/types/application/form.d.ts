@@ -19,11 +19,16 @@ declare global {
         title: string;
     }
 
-    class FormApplication<
-        TObject extends object | null = null,
-        TFormData extends Record<string, unknown> = Record<string, unknown>,
+    interface FormApplicationData<O extends object = object> {
+        object?: O | object;
+        options?: Partial<FormApplicationOptions>;
+        title?: string;
+    }
+
+    abstract class FormApplication<
+        TObject extends object = object,
         TOptions extends FormApplicationOptions = FormApplicationOptions
-    > extends Application {
+    > extends Application<TOptions> {
         options: TOptions;
 
         constructor(object?: TObject, options?: Partial<TOptions>);
@@ -32,10 +37,21 @@ declare global {
 
         get object(): TObject;
 
-        _updateObject(event: Event, formData: TFormData): Promise<void>;
+        abstract _updateObject(event: Event, formData: Record<string, unknown>): Promise<unknown>;
 
         _onChangeRange(event: { target: HTMLInputElement }): void;
+
         close(options?: { force?: boolean; submit?: boolean }): Promise<void>;
+        submit(options?: OnSubmitFormOptions): Promise<this>;
+        getData(
+            options?: Partial<TOptions>
+        ): FormApplicationData<TObject> | Promise<FormApplicationData<TObject>>;
+    }
+
+    interface OnSubmitFormOptions {
+        updateData?: Record<string, unknown> | null;
+        preventClose?: boolean;
+        preventRender?: boolean;
     }
 }
 
